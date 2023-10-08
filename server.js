@@ -1,4 +1,5 @@
 const app = require('./src/app')
+const mongoose = require('mongoose')
 
 const PORT = 3055
 
@@ -7,5 +8,7 @@ const server = app.listen(PORT, () => {
 })
 
 process.on('SIGINT', () => {
-  server.close(() => console.log('\x1b[31mServer is close'))
+  server.close(() => {
+    mongoose.disconnect()
+    console.log('\x1b[31mServer is close')})
 })

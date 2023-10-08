@@ -2,6 +2,7 @@ const compression = require('compression')
 const { default: helmet } = require('helmet')
 const morgan = require('morgan')
 const express = require('express')
+
 const app = express()
 
 // init middleware
@@ -10,7 +11,7 @@ app.use(helmet())
 app.use(compression())
 
 // init db
-
+require('./dbs/connectDB')
 // init routers
 app.get('/', (req, res, next) => {
   const text = 'ThanhDD'
