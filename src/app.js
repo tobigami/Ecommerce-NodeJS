@@ -10,17 +10,17 @@ const app = express();
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(compression());
+app.use(express.json());
+app.use(
+    express.urlencoded({
+        extended: true,
+    }),
+);
 
 // init db
 require('./dbs/connectDB');
 // init routers
-app.get('/', (req, res, next) => {
-    const text = 'ThanhDD';
-    return res.status(200).json({
-        message: 'Welcome to my api',
-        metadata: text.repeat(10000),
-    });
-});
+app.use('', require('./routers'));
 
 // handling error
 
