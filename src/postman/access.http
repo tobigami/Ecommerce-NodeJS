@@ -1,8 +1,9 @@
 ### signup
-@baseUrl = https://localhost:3055/v1/api
+@baseUrl = http://localhost:3055/v1/api
 
 POST {{baseUrl}}/shop/signup
 Content-Type: application/json
+x-api-key: e99eb4c4210214793662df65d2a81bd751d0e52f1d79ba44156a7be887020c0348026c23f45b6b7a284b0ee13861bef59d68347daa57c3911e610b5b5e65948f
 
 {
     "name": "shop1",
