@@ -17,7 +17,6 @@ const apiKey = async (req, res, next) => {
         }
 
         const objKey = await findById(key);
-        console.log('objKey', objKey);
         if (!objKey) {
             return res.status(403).json({
                 message: 'Forbidden Error 456',
@@ -47,10 +46,4 @@ const permission = (permission) => {
     };
 };
 
-const asyncHandler = (fn) => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
-
-module.exports = { apiKey, permission, asyncHandler };
+module.exports = { apiKey, permission };
