@@ -1,5 +1,7 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "cSpell.words": ["Apikey", "Apikeys"]
+    "cSpell.words": ["Apikey", "Apikeys", "REFRESHTOKEN"],
+    "editor.fontFamily": "'Cascadia Code',Consolas, 'Courier New', monospace",
+    "editor.mouseWheelZoom": true
 }
