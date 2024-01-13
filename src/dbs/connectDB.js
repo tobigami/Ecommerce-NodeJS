@@ -5,7 +5,9 @@ const {
     db: { host, name },
 } = require('../configs/config.mongodb');
 
-const connectString = `mongodb://${host}/${name}`;
+// const connectString = `mongodb://${host}/${name}`;
+const connectString = `mongodb+srv://root:123@cluster0.dikmvlw.mongodb.net/DEV_DB_NAME?retryWrites=true&w=majority`;
+
 const { countConnect } = require('../helper/check.connect');
 
 class DataBase {
