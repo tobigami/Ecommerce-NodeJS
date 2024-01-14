@@ -2,16 +2,21 @@
 
 const StatusCode = {
     OK: 200,
-    CREATE: 201,
+    CREATE: 201
 };
 
 const ReasonStatusCode = {
     OK: 'Success',
-    CREATE: 'Created!',
+    CREATE: 'Created!'
 };
 
 class SuccessResponse {
-    constructor({ message, statusCode = StatusCode.OK, reasonStatusCode = ReasonStatusCode.OK, metadata = {} }) {
+    constructor({
+        message,
+        statusCode = StatusCode.OK,
+        reasonStatusCode = ReasonStatusCode.OK,
+        metadata = {}
+    }) {
         this.message = message ? message : reasonStatusCode;
         this.status = statusCode;
         this.metadata = metadata;
@@ -34,7 +39,7 @@ class CREATED extends SuccessResponse {
         statusCode = StatusCode.CREATE,
         reasonStatusCode = ReasonStatusCode.CREATE,
         metadata = {},
-        option = {},
+        option = {}
     }) {
         super({ message, statusCode, reasonStatusCode, metadata });
         this.option = option;
@@ -44,5 +49,5 @@ class CREATED extends SuccessResponse {
 module.exports = {
     OK,
     CREATED,
-    SuccessResponse,
+    SuccessResponse
 };

@@ -4,6 +4,14 @@ const express = require('express');
 const { apiKey, permission } = require('../auth/checkAuth');
 const router = express.Router();
 
+// create api key
+router.get(
+    '/v1/api/create-api-key',
+    require('../services/apikey.service').creatApiKey
+);
+
+console.log('123');
+
 // check api key
 router.use(apiKey);
 // check permission

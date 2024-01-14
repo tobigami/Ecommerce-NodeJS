@@ -8,35 +8,35 @@ const shopSchema = new Schema(
         name: {
             type: String,
             trim: true,
-            maxLength: 150,
+            maxLength: 150
         },
         email: {
             type: String,
             unique: true,
-            trim: true,
+            trim: true
         },
         password: {
             type: String,
-            required: true,
+            required: true
         },
         status: {
             type: String,
             enum: ['active', 'inactive'],
-            default: 'active',
+            default: 'active'
         },
         verify: {
             type: Schema.Types.Boolean,
-            default: false,
+            default: false
         },
         roles: {
             type: Array,
-            default: [],
-        },
+            default: []
+        }
     },
     {
         timestamps: true,
-        collection: COLLECTION_NAME,
-    },
+        collection: COLLECTION_NAME
+    }
 );
 
 //Export the model

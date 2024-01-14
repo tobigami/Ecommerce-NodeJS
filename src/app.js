@@ -13,8 +13,8 @@ app.use(compression());
 app.use(express.json());
 app.use(
     express.urlencoded({
-        extended: true,
-    }),
+        extended: true
+    })
 );
 
 // init db
@@ -34,7 +34,7 @@ app.use((error, req, res, next) => {
         status: 'error',
         code: statusCode,
         stack: error.stack,
-        message: error.message || 'Internal Server Error',
+        message: error.message || 'Internal Server Error'
     });
 });
 

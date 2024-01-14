@@ -9,30 +9,30 @@ const keyTokenSchema = new Schema(
         user: {
             type: Schema.Types.ObjectId,
             required: true,
-            ref: 'Shop',
+            ref: 'Shop'
         },
         privateKey: {
             type: String,
-            required: true,
+            required: true
         },
         publicKey: {
             type: String,
-            required: true,
+            required: true
         },
         // nhung RT da duoc su dung
         refreshTokenUsed: {
             type: Array,
-            default: [],
+            default: []
         },
         refreshToken: {
             type: String,
-            required: true,
-        },
+            required: true
+        }
     },
     {
         timestamps: true,
-        collection: COLLECTION_NAME,
-    },
+        collection: COLLECTION_NAME
+    }
 );
 
 //Export the model

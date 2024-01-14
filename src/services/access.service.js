@@ -6,7 +6,11 @@ const crypto = require('crypto');
 const { createKeyToken } = require('./keyToken.service');
 const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
-const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response');
+const {
+    BadRequestError,
+    AuthFailureError,
+    ForbiddenError
+} = require('../core/error.response');
 const { findByEmail } = require('./shop.service');
 const KeyTokenService = require('./keyToken.service');
 
@@ -14,7 +18,7 @@ const RoleShop = {
     SHOP: 'SHOP',
     WRITER: 'WRITER',
     EDITOR: 'EDITOR',
-    ADMIN: 'ADMIN',
+    ADMIN: 'ADMIN'
 };
 
 class AccessService {
@@ -35,21 +39,25 @@ class AccessService {
         if (!foundShop) throw new AuthFailureError('Shop is not registered');
 
         // create new token
-        const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey);
+        const tokens = await createTokenPair(
+            { userId, email },
+            keyStore.publicKey,
+            keyStore.privateKey
+        );
 
         // update token
         await keyStore.updateOne({
             $set: {
-                refreshToken: tokens.refreshToken,
+                refreshToken: tokens.refreshToken
             },
             $addToSet: {
-                refreshTokenUsed: refreshToken,
-            },
+                refreshTokenUsed: refreshToken
+            }
         });
 
         return {
             user,
-            tokens,
+            tokens
         };
     };
 
@@ -80,18 +88,25 @@ class AccessService {
         const publicKey = crypto.randomBytes(64).toString('hex');
 
         //4. Create Token
-        const tokens = await createTokenPair({ userId: foundShop._id, email }, publicKey, privateKey);
+        const tokens = await createTokenPair(
+            { userId: foundShop._id, email },
+            publicKey,
+            privateKey
+        );
 
         await KeyTokenService.createKeyToken({
             refreshToken: tokens.refreshToken,
             privateKey,
             publicKey,
-            userId: foundShop._id,
+            userId: foundShop._id
         });
 
         return {
-            metadata: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
-            tokens,
+            metadata: getInfoData({
+                fields: ['_id', 'name', 'email'],
+                object: foundShop
+            }),
+            tokens
         };
     };
 
@@ -107,7 +122,7 @@ class AccessService {
             name,
             email,
             password: passwordHash,
-            roles: [RoleShop.SHOP],
+            roles: [RoleShop.SHOP]
         });
 
         if (newShop) {
@@ -119,31 +134,38 @@ class AccessService {
             const keyStore = await createKeyToken({
                 userId: newShop._id,
                 publicKey,
-                privateKey,
+                privateKey
             });
 
             if (!keyStore) {
                 return {
                     code: 'xxxx',
-                    message: 'error publickeyString',
+                    message: 'error publickeyString'
                 };
             }
 
             // create token pair
-            const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey);
+            const tokens = await createTokenPair(
+                { userId: newShop._id, email },
+                publicKey,
+                privateKey
+            );
 
             return {
                 code: 201,
                 metadata: {
-                    shop: getInfoData({ fields: ['_id', 'name', 'email'], object: newShop }),
-                    tokens,
-                },
+                    shop: getInfoData({
+                        fields: ['_id', 'name', 'email'],
+                        object: newShop
+                    }),
+                    tokens
+                }
             };
         }
 
         return {
             code: 200,
-            metadata: null,
+            metadata: null
         };
     };
 }
