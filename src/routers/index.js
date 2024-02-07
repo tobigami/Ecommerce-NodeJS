@@ -10,8 +10,6 @@ router.get(
     require('../services/apikey.service').creatApiKey
 );
 
-console.log('123');
-
 // check api key
 router.use(apiKey);
 // check permission

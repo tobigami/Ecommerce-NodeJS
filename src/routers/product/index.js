@@ -7,6 +7,8 @@ const router = express.Router();
 // authentication
 router.use(authentication);
 // create product
-router.use('', asyncHandler(productController.createProduct));
+router.post('', asyncHandler(productController.createProduct));
+// get all draft product by shop
+router.get('/drafts/all', asyncHandler(productController.getAllDraftProductForShop))
 
 module.exports = router;

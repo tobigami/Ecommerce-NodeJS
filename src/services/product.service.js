@@ -7,6 +7,7 @@ const {
     furniture
 } = require('../models/product.model');
 const { BadRequestError, ForbiddenError } = require('../core/error.response');
+const { findAllDraftForShop } = require('../models/repositories/product.repo')
 
 // define Factory Class to create Product
 class ProductFactory {
@@ -23,19 +24,15 @@ class ProductFactory {
 
     static async createProduct(type, payload) {
         const productClass = ProductFactory.productRegister[type];
-        if (!productClass)
+        if (!productClass) {
             throw new BadRequestError(`Invalid Product Type: ${type}`);
-
+        }
         return new productClass(payload).createProduct();
+    }
 
-        // switch (type) {
-        //     case 'Clothing':
-        //         return new Clothing(payload).createProduct();
-        //     case 'Electronic':
-        //         return new Electronic(payload).createProduct();
-        //     default:
-        //         throw new BadRequestError(`Invalid Product Type: ${type}`);
-        // }
+    static async findAllDraftForShop({ product_shop, skip = 0, limit = 50 }) {
+        const query = { product_shop: product_shop, is_draft: true }
+        return await findAllDraftForShop({ query, limit, skip })
     }
 }
 
@@ -69,11 +66,14 @@ class Product {
 // define clothing class
 class Clothing extends Product {
     async createProduct() {
-        const newClothing = await clothing.create(this.product_attributes);
+        const newClothing = await clothing.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        });
         if (!newClothing)
             throw new BadRequestError('Create new clothing error');
 
-        const newProduct = await super.createProduct();
+        const newProduct = await super.createProduct(newClothing._id);
         if (!newProduct) throw new BadRequestError('Create new product error');
 
         return newProduct;
