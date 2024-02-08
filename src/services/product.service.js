@@ -7,7 +7,13 @@ const {
     furniture
 } = require('../models/product.model');
 const { BadRequestError, ForbiddenError } = require('../core/error.response');
-const { findAllDraftForShop } = require('../models/repositories/product.repo')
+const {
+    findAllDraftForShop,
+    findAllPublishForShop,
+    publishProductByShop,
+    unPublishProductByShop,
+    searchProductByUser
+} = require('../models/repositories/product.repo');
 
 // define Factory Class to create Product
 class ProductFactory {
@@ -21,7 +27,7 @@ class ProductFactory {
     static registerProductType(type, classRef) {
         ProductFactory.productRegister[type] = classRef;
     }
-
+    // POST
     static async createProduct(type, payload) {
         const productClass = ProductFactory.productRegister[type];
         if (!productClass) {
@@ -29,10 +35,26 @@ class ProductFactory {
         }
         return new productClass(payload).createProduct();
     }
-
+    // PUT
+    static async publishProductByShop({ shop_id, product_id }) {
+        return await publishProductByShop({ shop_id, product_id });
+    }
+    static async unPublishProductByShop({ shop_id, product_id }) {
+        return await unPublishProductByShop({ shop_id, product_id });
+    }
+    // QUERY
     static async findAllDraftForShop({ product_shop, skip = 0, limit = 50 }) {
-        const query = { product_shop: product_shop, is_draft: true }
-        return await findAllDraftForShop({ query, limit, skip })
+        const query = { product_shop: product_shop, is_draft: true };
+        return await findAllDraftForShop({ query, limit, skip });
+    }
+
+    static async findAllPublishForShop({ product_shop, skip = 0, limit = 50 }) {
+        const query = { product_shop: product_shop, is_published: true };
+        return await findAllPublishForShop({ query, limit, skip });
+    }
+
+    static async searchProductByUser({ keySearch }) {
+        return await searchProductByUser({ keySearch });
     }
 }
 

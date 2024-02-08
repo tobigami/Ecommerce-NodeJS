@@ -17,16 +17,75 @@ class ProductController {
         }).send(res);
     };
 
+    /**
+     *
+     * @param {String} shop_id
+     * @param {String} product_id
+     * @returns {JSON}
+     */
+    publishProductByShop = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Publish Product success!',
+            metadata: await ProductService.publishProductByShop({
+                shop_id: req.user.userId,
+                product_id: req.params.id
+            })
+        }).send(res);
+    };
+
+    /**
+     *
+     * @param {String} shop_id
+     * @param {String} product_id
+     * @returns {JSON}
+     */
+    unPublishProductByShop = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Unpublish Product success!',
+            metadata: await ProductService.unPublishProductByShop({
+                shop_id: req.user.userId,
+                product_id: req.params.id
+            })
+        }).send(res);
+    };
 
     /**
      * @desc Get all draft product by shop
-     * @param {String} product_shop 
+     * @param {String} product_shop
      * @returns {JSON}
      */
     getAllDraftProductForShop = async (req, res, next) => {
         return new SuccessResponse({
             message: 'Get All Draft Product!',
-            metadata: await ProductService.findAllDraftForShop({ product_shop: req.user.userId })
+            metadata: await ProductService.findAllDraftForShop({
+                product_shop: req.user.userId
+            })
+        }).send(res);
+    };
+
+    /**
+     * @desc Get all publish product by shop
+     * @param {String} product_shop
+     * @returns {JSON}
+     */
+    getAllPublishProductForShop = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get All Published Product!',
+            metadata: await ProductService.findAllPublishForShop({
+                product_shop: req.user.userId
+            })
+        }).send(res);
+    };
+
+    /**
+     * @desc Search list product
+     * @param {String} keySearch
+     * @returns {JSON}
+     */
+    getListSearchProduct = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get List Search Product!',
+            metadata: await ProductService.searchProductByUser(req.params)
         }).send(res);
     };
 }

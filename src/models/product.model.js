@@ -30,7 +30,12 @@ const productSchema = new Schema(
             set: (value) => Math.round(value * 10) / 10
         },
         is_draft: { type: Boolean, default: true, index: true, select: false },
-        is_public: { type: Boolean, default: false, index: true, select: false }
+        is_published: {
+            type: Boolean,
+            default: false,
+            index: true,
+            select: false
+        }
     },
     {
         timestamps: true,
@@ -43,6 +48,9 @@ productSchema.pre('save', function (next) {
     this.product_slug = slugify(this.product_name, { lower: true });
     next();
 });
+
+// create index for full text search
+productSchema.index({ product_name: 'text', product_description: 'text' });
 
 // define product type = clothing
 const clothingSchema = new Schema(
