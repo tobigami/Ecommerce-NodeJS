@@ -7,13 +7,10 @@ class ProductController {
     createProduct = async (req, res, next) => {
         return new SuccessResponse({
             message: 'Create Product success!',
-            metadata: await ProductService.createProduct(
-                req.body.product_type,
-                {
-                    ...req.body,
-                    product_shop: req.user.userId
-                }
-            )
+            metadata: await ProductService.createProduct(req.body.product_type, {
+                ...req.body,
+                product_shop: req.user.userId
+            })
         }).send(res);
     };
 
@@ -86,6 +83,20 @@ class ProductController {
         return new SuccessResponse({
             message: 'Get List Search Product!',
             metadata: await ProductService.searchProductByUser(req.params)
+        }).send(res);
+    };
+
+    findAllProducts = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get list findAllProducts success',
+            metadata: await ProductService.findAllProducts(req.params)
+        }).send(res);
+    };
+
+    findProduct = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get Product Detail success',
+            metadata: await ProductService.findProduct(req.params)
         }).send(res);
     };
 }

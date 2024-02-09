@@ -6,11 +6,7 @@ const crypto = require('crypto');
 const { createKeyToken } = require('./keyToken.service');
 const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
-const {
-    BadRequestError,
-    AuthFailureError,
-    ForbiddenError
-} = require('../core/error.response');
+const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response');
 const { findByEmail } = require('./shop.service');
 const KeyTokenService = require('./keyToken.service');
 

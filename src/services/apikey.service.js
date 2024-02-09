@@ -8,7 +8,7 @@ const findById = async (key) => {
     return objKey;
 };
 
-const creatApiKey = async (req, res, next) => {
+const createApiKey = async (req, res, next) => {
     const newKey = await apiKeyModel.create({
         key: crypto.randomBytes(10).toString('hex'),
         status: true,
@@ -21,4 +21,4 @@ const creatApiKey = async (req, res, next) => {
     });
 };
 
-module.exports = { findById, creatApiKey };
+module.exports = { findById, createApiKey };
