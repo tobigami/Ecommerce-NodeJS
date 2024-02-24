@@ -16,8 +16,8 @@ class KeyTokenService {
                     refreshToken
                 },
                 options = {
-                    upsert: true,
-                    new: true
+                    upsert: true, //Neu khong tim duoc se insert
+                    new: true // return ve document update thay vi document original
                 };
 
             const token = await keyTokenModel.findOneAndUpdate(filter, update, options);

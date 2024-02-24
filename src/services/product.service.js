@@ -9,8 +9,10 @@ const {
     unPublishProductByShop,
     searchProductByUser,
     findAllProducts,
-    findProduct
+    findProduct,
+    updateProductById
 } = require('../models/repositories/product.repo');
+const { removeUndefinedObject, updateNestedObjectParse } = require('../utils');
 
 // define Factory Class to create Product
 class ProductFactory {
@@ -31,6 +33,14 @@ class ProductFactory {
             throw new BadRequestError(`Invalid Product Type: ${type}`);
         }
         return new productClass(payload).createProduct();
+    }
+
+    static async updateProduct(type, productId, payload) {
+        const productClass = ProductFactory.productRegister[type];
+        if (!productClass) {
+            throw new BadRequestError(`Invalid Product Type: ${type}`);
+        }
+        return new productClass(payload).updateProduct(productId);
     }
     // PUT
     static async publishProductByShop({ shop_id, product_id }) {
@@ -99,6 +109,11 @@ class Product {
     async createProduct(product_id) {
         return await product.create({ ...this, _id: product_id });
     }
+
+    // update Product
+    async updateProduct(productId, bodyUpdate) {
+        return await updateProductById({ productId, bodyUpdate, model: product });
+    }
 }
 
 // define clothing class
@@ -114,6 +129,30 @@ class Clothing extends Product {
         if (!newProduct) throw new BadRequestError('Create new product error');
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        //1. Remove attr has null or undefined
+        // const obj1 = updateNestedObjectParse(this);
+        // console.log('000000 :>> ', obj1);
+        const objectParams = removeUndefinedObject(this);
+
+        //2. Check xem update o dau
+        if (objectParams.product_attributes) {
+            // update child clothing model
+            await updateProductById({
+                productId,
+                bodyUpdate: updateNestedObjectParse(objectParams.product_attributes),
+                model: clothing
+            });
+        }
+
+        // update parent product model
+        const updateProduct = await super.updateProduct(
+            productId,
+            updateNestedObjectParse(objectParams)
+        );
+        return updateProduct;
     }
 }
 

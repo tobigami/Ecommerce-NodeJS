@@ -3,5 +3,8 @@
     "editor.formatOnSave": true,
     "cSpell.words": ["Apikey", "Apikeys", "REFRESHTOKEN"],
     "editor.fontFamily": "'Cascadia Code',Consolas, 'Courier New', monospace",
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
