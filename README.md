@@ -21,6 +21,8 @@ DEV_DB_NAME='shopDEV'
 PRO_APP_PORT='4055'
 PRO_DB_PORT='127.0.0.1'
 PRO_DB_NAME='shopPRO'
+```
+## 2. Start with pm2 
 ```shell
 pm2 start npm --name NodeJs -- run dev --watch
 ```

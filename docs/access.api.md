@@ -133,6 +133,10 @@ static removeKeyById = async (id) => {
 # Handler refresh token
 
 
+Cart service
+Nên tạo giỏ hàng ngay sau khi user đăng nhập không ??
+Nếu Server đủ mạnh thì nên tạo giỏ hàng sẵn ngay sau khi người dùng đăng nhập, để tránh rủi ro của việc  tinh đồng thời cao duplicate
+
 
 
 
