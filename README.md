@@ -1,8 +1,11 @@
 # Ecommerce-NodeJS - API
-## 1. Setup Env
-create new ```.env``` file in your diretory
 
-Example ```.env```:
+## 1. Setup Env
+
+create new `.env` file in your diretory
+
+Example `.env`:
+
 ```shell
 # APP
 ENVIRONMENT ='dev'
@@ -21,8 +24,15 @@ DEV_DB_NAME='shopDEV'
 PRO_APP_PORT='4055'
 PRO_DB_PORT='127.0.0.1'
 PRO_DB_NAME='shopPRO'
+
+# Discord bot log
+TOKEN_BOT_LOG= ''
+CHANNEL_ID_DISCORD=''
+
 ```
-## 2. Start with pm2 
+
+## 2. Start with pm2
+
 ```shell
 pm2 start npm --name NodeJs -- run dev --watch
 ```
