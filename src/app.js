@@ -19,6 +19,9 @@ app.use(
 
 // init db
 require('./dbs/connectDB');
+const initRedis = require('./dbs/init.redis');
+initRedis.initRedis();
+
 // init routers
 app.use('', require('./routers'));
 // handling error

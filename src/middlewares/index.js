@@ -4,7 +4,6 @@ const Logger = require('../log/discord.log');
 
 const pushLogToDiscord = async (req, res, next) => {
     try {
-        console.log('req', req);
         Logger.sendToFormatCode({
             title: `Method" ${req.method}`,
             code: req.method === 'GET' ? req.query : req.body,
