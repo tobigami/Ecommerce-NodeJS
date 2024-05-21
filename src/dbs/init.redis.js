@@ -2,24 +2,6 @@
 const redis = require('redis');
 const { REDIS_URL } = process.env;
 
-// const client = redis.createClient({
-//     url: REDIS_URL
-// });
-
-// client.ping(function (err, result) {
-//     console.log(result);
-// });
-
-// client.on('connect', () => {
-//     console.log('connect success');
-// });
-
-// client.on('error', (error) => {
-//     console.log(error);
-// });
-
-// module.exports = client;
-
 let client = {},
     statusConnectRedis = {
         CONNECT: 'connect', // kich hoat sau khi connect thanh cong

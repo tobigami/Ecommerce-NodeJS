@@ -17,6 +17,11 @@ app.use(
     })
 );
 
+// test pub/sub redis
+// require('./Test/inventory.test');
+// const productTest = require('./Test/product.test');
+// productTest.purchaseProduct('product:001', 10);
+
 // init db
 require('./dbs/connectDB');
 const initRedis = require('./dbs/init.redis');
