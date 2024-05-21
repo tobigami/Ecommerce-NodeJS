@@ -31,11 +31,11 @@ let client = {},
 const handleEventConnection = ({ connectionRedis }) => {
     // check is null ....
     connectionRedis.on(statusConnectRedis.CONNECT, () => {
-        console.log(`connectionRedis - Connection status: connected`);
+        console.log(`\x1b[32m connectionRedis - Connection status: \x1b[32m connected`);
     });
 
     connectionRedis.on(statusConnectRedis.END, () => {
-        console.log(`connectionRedis - Connection status: disconnected`);
+        console.log(`connectionRedis - Connection status: \x1b[31m disconnected`);
     });
 
     connectionRedis.on(statusConnectRedis.RECONNECT, () => {
@@ -43,7 +43,7 @@ const handleEventConnection = ({ connectionRedis }) => {
     });
 
     connectionRedis.on(statusConnectRedis.ERROR, (err) => {
-        console.log(`connectionRedis - Connection status: error ${err}`);
+        console.log(`connectionRedis - Connection status: error \x1b[31m ${err}`);
     });
 };
 

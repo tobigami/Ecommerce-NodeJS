@@ -14,12 +14,12 @@ class LogService {
             ]
         });
 
-        this.channelId = CHANNEL_ID_DISCORD;
-        this.client.on('ready', () => {
-            console.log(`Logger is as ${this.client.user.tag}`);
-        });
+        // this.channelId = CHANNEL_ID_DISCORD;
+        // this.client.on('ready', () => {
+        //     console.log(`Logger is as ${this.client.user.tag}`);
+        // });
 
-        this.client.login(TOKEN_BOT_LOG);
+        // this.client.login(TOKEN_BOT_LOG);
     }
 
     sendToFormatCode(logData) {
