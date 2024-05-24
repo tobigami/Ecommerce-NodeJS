@@ -9,7 +9,7 @@ const { pushLogToDiscord } = require('../middlewares');
 router.get('/v1/api/create-api-key', require('../services/apikey.service').createApiKey);
 
 // push log to discord
-// router.use(pushLogToDiscord);
+router.use(pushLogToDiscord);
 
 // check api key
 router.use(apiKey);

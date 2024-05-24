@@ -25,7 +25,7 @@ class DataBase {
         mongoose
             .connect(connectString)
             .then((_) => {
-                console.log('connect DB success PRO');
+                console.log('\x1b[35m connect Mongo DB:\x1b[32m success');
                 countConnect();
             })
             .catch((err) => {

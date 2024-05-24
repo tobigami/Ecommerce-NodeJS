@@ -29,6 +29,9 @@ PRO_DB_NAME='shopPRO'
 TOKEN_BOT_LOG= ''
 CHANNEL_ID_DISCORD=''
 
+# Redis Cloud
+REDIS_URL=''
+
 ```
 
 ## 2. Start with pm2
