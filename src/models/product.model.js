@@ -80,7 +80,7 @@ const electronicSchema = new Schema(
     }
 );
 
-// define product type = electronic
+// define product type = furniture
 const furnitureSchema = new Schema(
     {
         manufacture: { type: String, required: true },

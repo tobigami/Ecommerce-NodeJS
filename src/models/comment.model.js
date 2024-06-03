@@ -16,7 +16,7 @@ const commentSchema = new Schema(
         comment_isDelete: { type: Boolean, default: false }
     },
     {
-        collation: COLLECTION_NAME,
+        collection: COLLECTION_NAME,
         timestamps: true
     }
 );
