@@ -10,6 +10,13 @@ class CommentController {
             metadata: await CommentService.addComment(req.body)
         }).send(res);
     };
+
+    getComments = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get list comment success',
+            metadata: await CommentService.getCommentsByParentId(req.query)
+        }).send(res);
+    };
 }
 
 module.exports = new CommentController();

@@ -21,13 +21,6 @@ class CommentService {
         let rightValue;
 
         if (parentId) {
-            console.log('di vao day roi nay');
-            // reply comment
-            /**
-             * check parent comment is exits
-             *
-             */
-
             const parentComment = await Comment.findById(parentId);
             if (!parentComment) throw new NotFoundError('Could not find parent Comment');
 
@@ -77,6 +70,55 @@ class CommentService {
         comment.comment_right = rightValue + 1;
 
         return await comment.save();
+    }
+
+    static async getCommentsByParentId({
+        productId,
+        parentId = null,
+        limit = 2,
+        skip = 0 // skip
+    }) {
+        if (parentId) {
+            const foundComment = await Comment.findById(convertToObjectIdMongodb(parentId));
+            if (!foundComment) throw new NotFoundError('Not found comment for product');
+
+            const comments = await Comment.find({
+                comment_productId: productId,
+                comment_left: { $gt: foundComment.comment_left },
+                comment_right: { $lt: foundComment.comment_right }
+            })
+                .select({
+                    comment_left: 1,
+                    comment_right: 1,
+                    comment_content: 1,
+                    comment_parentId: 1
+                })
+                .sort({
+                    comment_left: 1
+                })
+                .limit(limit)
+                .skip(skip);
+
+            return comments;
+        }
+
+        const comments = await Comment.find({
+            comment_productId: productId,
+            comment_parentId: parentId
+        })
+            .select({
+                comment_left: 1,
+                comment_right: 1,
+                comment_content: 1,
+                comment_parentId: 1
+            })
+            .sort({
+                comment_left: 1
+            })
+            .limit(limit)
+            .skip(skip);
+
+        return comments;
     }
 }
 
