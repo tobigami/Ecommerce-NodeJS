@@ -13,4 +13,7 @@ router.get('/', asyncHandler(commentController.getComments));
 // add comment
 router.post('/add', asyncHandler(commentController.addComment));
 
+// delete comment
+router.delete('/delete', asyncHandler(commentController.deleteComment));
+
 module.exports = router;
