@@ -14,6 +14,8 @@ const {
 } = require('../models/repositories/product.repo');
 const { removeUndefinedObject, updateNestedObjectParse } = require('../utils');
 const { insertInventory } = require('../models/repositories/inventory.repo');
+const NotificationService = require('../services/notification.service');
+const { NotifyEnum } = require('../configs/enum');
 
 // define Factory Class to create Product
 class ProductFactory {
@@ -117,6 +119,19 @@ class Product {
                 shopId: this.product_shop,
                 stock: this.product_quantity
             });
+
+            // push to notify system
+            NotificationService.PushToNotifySystem({
+                type: NotifyEnum.SHOP_NEW_PRO,
+                receiver: 1,
+                sender: this.product_shop,
+                options: {
+                    product_name: this.product_name,
+                    shop_name: this.product_shop
+                }
+            })
+                .then((rs) => console.log(rs))
+                .catch((err) => console.log(err));
         }
 
         return newProduct;
