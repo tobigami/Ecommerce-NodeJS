@@ -15,7 +15,7 @@ const runConsumer = async () => {
                 console.log('Receiver message:', message.content.toString());
             },
             {
-                noAck: true
+                noAck: true // khong gui lai cac tin nhan da duoc xu ly roi
             }
         );
     } catch (error) {
