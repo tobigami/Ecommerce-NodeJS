@@ -12,13 +12,16 @@ const runProducer = async () => {
         });
 
         // send message to consumer
-        channel.sendToQueue(queueName, Buffer.from(message));
+        channel.sendToQueue(queueName, Buffer.from(message), {
+            persistent: true
+            //  TTL  time  to live
+        });
         console.log('message send:', message);
 
-        setTimeout(function () {
-            connection.close();
-            process.exit(0);
-        }, 500);
+        // setTimeout(function () {
+        //     connection.close();
+        //     process.exit(0);
+        // }, 500);
     } catch (error) {
         console.log(error);
     }
