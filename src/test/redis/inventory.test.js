@@ -1,4 +1,4 @@
-const redisPubsubService = require('../services/redisPubsub.service');
+const redisPubsubService = require('../../services/redisPubsub.service');
 
 class InventoryServiceTest {
     constructor() {

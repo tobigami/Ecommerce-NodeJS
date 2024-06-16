@@ -1,4 +1,4 @@
-const RedisPubsubService = require('../services/redisPubsub.service');
+const RedisPubsubService = require('../../services/redisPubsub.service');
 
 class ProductServiceTest {
     purchaseProduct(productId, quantity) {
