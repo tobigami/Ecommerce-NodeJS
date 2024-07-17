@@ -32,9 +32,36 @@ CHANNEL_ID_DISCORD=''
 # Redis Cloud
 REDIS_URL=''
 
+
+# RabbitMQ
+RABBIT_MQ_PASS = 'guest'
+
+# Mysql
+MYSQL_DB_NAME = 'shopDev'
+MYSQL_DB_USER = 'test'
+MYSQL_DB_PASS = '1'
+
+
 ```
 
-## 2. Start with pm2
+## 2. Install docker needed
+
+* MongoDB
+  ```shell
+  docker run --name mdb -d -p 27017:27017 mongo
+  ```
+  
+* Redis
+  ```shell
+  docker run --name rdb -d -p 6379:6379 redis
+  ```
+
+* RabbitMq
+  ```shell
+  docker run --name rabbitMQ -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+  ```
+
+## 3. Start with pm2
 
 ```shell
 pm2 start npm --name NodeJs -- run dev --watch

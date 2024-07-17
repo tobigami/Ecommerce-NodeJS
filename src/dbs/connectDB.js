@@ -29,7 +29,7 @@ class DataBase {
                 countConnect();
             })
             .catch((err) => {
-                console.log('connect fail');
+                console.log('connect mongoDB fail');
             });
     }
 

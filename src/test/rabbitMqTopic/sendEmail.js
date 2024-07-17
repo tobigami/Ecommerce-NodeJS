@@ -5,7 +5,7 @@ const amqplib = require('amqplib');
 const sendEmail = async () => {
     try {
         // 1. create connection
-        const connection = await amqplib.connect('amqp://guest:12345@localhost');
+        const connection = await amqplib.connect('amqp://guest:guest@localhost');
 
         // 2. create channel
         const channel = await connection.createChannel();

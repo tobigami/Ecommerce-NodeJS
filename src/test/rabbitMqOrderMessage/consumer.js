@@ -4,7 +4,7 @@ const amqplib = require('amqplib');
 
 const consumer = async () => {
     try {
-        const connection = await amqplib.connect('amqp://guest:12345@localhost');
+        const connection = await amqplib.connect('amqp://guest:guest@localhost');
 
         const channel = await connection.createChannel();
         const queueName = 'order-message';
