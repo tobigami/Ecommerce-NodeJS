@@ -18,10 +18,9 @@ class CartService {
     static async addToCart({ userId, product = {} }) {
         // check su ton tai cua cart userID
         const userCart = await cartModel.findOne({ cart_userId: userId });
-
         if (!userCart) {
-            // create new cart user
-            // note lấy lại tên và giá sản phẩm từ db truyền vào để tạo cart
+            // create new cart  for user
+            // note lấy lại tên và giá sản phẩm từ db truyền vào để tạo cart (pending)
             return await createUserCart({ userId, product });
         }
 

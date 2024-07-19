@@ -7,7 +7,7 @@ const CheckoutService = require('../services/checkout.service');
 class CheckoutController {
     reviewCheckout = async (req, res, next) => {
         return new SuccessResponse({
-            message: 'review checkout succell',
+            message: 'review checkout successfully',
             metadata: await CheckoutService.checkoutReview({ ...req.body })
         }).send(res);
     };
