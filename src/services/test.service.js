@@ -5,22 +5,22 @@ const commentModel = require('../models/comment.model');
 const { convertToObjectIdMongodb } = require('../utils');
 
 class TestService {
-    static async createTest({ name, old, gender, shop }) {
-        const comment = await commentModel.findOne({
-            comment_productId: convertToObjectIdMongodb(shop)
-        });
+	static async createTest({ name, old, gender, shop }) {
+		const comment = await commentModel.findOne({
+			comment_productId: convertToObjectIdMongodb(shop)
+		});
 
-        console.log('comment', comment);
+		console.log('comment', comment);
 
-        const newTest = await testModel.create({
-            test_shop: shop,
-            test_name: name,
-            test_old: old,
-            test_gender: gender
-        });
+		const newTest = await testModel.create({
+			test_shop: shop,
+			test_name: name,
+			test_old: old,
+			test_gender: gender
+		});
 
-        return newTest;
-    }
+		return newTest;
+	}
 }
 
 module.exports = TestService;

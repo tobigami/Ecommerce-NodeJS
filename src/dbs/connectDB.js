@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const {
-    db: { host, name }
+	db: { host, name }
 } = require('../configs/config.mongodb');
 
 const connectString = `mongodb://${host}/${name}`;
@@ -12,39 +12,39 @@ const connectString = `mongodb://${host}/${name}`;
 
 const { countConnect } = require('../helper/check.connect');
 class DataBase {
-    constructor() {
-        this.connect();
-    }
+	constructor() {
+		this.connect();
+	}
 
-    // connect
-    connect(type = 'mongodb') {
-        if (1 === 1) {
-            mongoose.set('debug', true);
-            mongoose.set('debug', { color: true });
-        }
-        mongoose
-            .connect(connectString)
-            .then((_) => {
-                console.log('\x1b[35m connect Mongo DB:\x1b[32m success');
-                countConnect();
-            })
-            .catch((err) => {
-                console.log('connect mongoDB fail');
-            });
-    }
+	// connect
+	connect(type = 'mongodb') {
+		if (1 === 1) {
+			mongoose.set('debug', true);
+			mongoose.set('debug', { color: true });
+		}
+		mongoose
+			.connect(connectString)
+			.then((_) => {
+				console.log('\x1b[35m connect Mongo DB:\x1b[32m success');
+				countConnect();
+			})
+			.catch((err) => {
+				console.log('connect mongoDB fail');
+			});
+	}
 
-    static getInstance() {
-        if (!DataBase.instance) {
-            DataBase.instance = new DataBase();
-        }
+	static getInstance() {
+		if (!DataBase.instance) {
+			DataBase.instance = new DataBase();
+		}
 
-        return DataBase.instance;
-    }
+		return DataBase.instance;
+	}
 
-    // disconnect() {
-    //     mongoose.disconnect().then(_ => console.log('disconnect DB success PRO')).catch(err => {
-    //         console.log('disconnect fail')})
-    // }
+	// disconnect() {
+	//     mongoose.disconnect().then(_ => console.log('disconnect DB success PRO')).catch(err => {
+	//         console.log('disconnect fail')})
+	// }
 }
 
 const instanceMongooseDB = DataBase.getInstance();

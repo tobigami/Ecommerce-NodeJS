@@ -13,11 +13,11 @@ PORT='3055'
 # DB DEV
 DEV_APP_PORT='3055'
 
-# window
-# DEV_DB_PORT='127.0.0.1'
+# ubuntu
+DEV_DB_PORT='127.0.0.1'
 
 # wsl (cmd -> ipconfig -> ipv4)
-DEV_DB_PORT='192.168.1.97'
+# DEV_DB_PORT='192.168.1.97'
 DEV_DB_NAME='shopDEV'
 
 # DB PRODUCT
@@ -37,10 +37,9 @@ REDIS_URL=''
 RABBIT_MQ_PASS = 'guest'
 
 # Mysql
-MYSQL_DB_NAME = 'shopDev'
+MYSQL_DB_NAME = 'NodeJs'
 MYSQL_DB_USER = 'test'
 MYSQL_DB_PASS = '1'
-
 
 ```
 

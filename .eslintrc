@@ -1,41 +1,41 @@
 {
-    "env": {
-        "browser": true,
-        "node": true,
-        "commonjs": true,
-        "jquery": true,
-        "es6": true
-    },
-    "extends": ["eslint:recommended", "prettier", "eslint-config-prettier"],
-    "plugins": ["prettier"],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-        "requireConfigFile": false
-    },
-    "rules": {
-        "no-console": 2,
-        "prettier/prettier": [
-            "warn",
-            {
-                "arrowParens": "always",
-                "bracketSameLine": false,
-                "bracketSpacing": true,
-                "semi": true,
-                "singleQuote": true,
-                "jsxSingleQuote": true,
-                "quoteProps": "as-needed",
-                "trailingComma": "none",
-                "singleAttributePerLine": false,
-                "htmlWhitespaceSensitivity": "css",
-                "vueIndentScriptAndStyle": false,
-                "proseWrap": "preserve",
-                "insertPragma": false,
-                "printWidth": 80,
-                "requirePragma": false,
-                "tabWidth": 4,
-                "useTabs": false,
-                "embeddedLanguageFormatting": "auto"
-            }
-        ]
-    }
+	"env": {
+		"browser": true,
+		"node": true,
+		"commonjs": true,
+		"jquery": true,
+		"es6": true
+	},
+	"extends": ["eslint:recommended", "prettier", "eslint-config-prettier"],
+	"plugins": ["prettier"],
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"requireConfigFile": false
+	},
+	"rules": {
+		"no-console": 2,
+		"prettier/prettier": [
+			"warn",
+			{
+				"arrowParens": "always",
+				"bracketSameLine": false,
+				"bracketSpacing": true,
+				"semi": true,
+				"singleQuote": true,
+				"jsxSingleQuote": true,
+				"quoteProps": "as-needed",
+				"trailingComma": "none",
+				"singleAttributePerLine": false,
+				"htmlWhitespaceSensitivity": "css",
+				"vueIndentScriptAndStyle": false,
+				"proseWrap": "preserve",
+				"insertPragma": false,
+				"printWidth": 80,
+				"requirePragma": false,
+				"tabWidth": 2,
+				"useTabs": true,
+				"embeddedLanguageFormatting": "auto"
+			}
+		]
+	}
 }
