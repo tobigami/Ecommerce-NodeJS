@@ -41,21 +41,26 @@ MYSQL_DB_NAME = 'NodeJs'
 MYSQL_DB_USER = 'test'
 MYSQL_DB_PASS = '1'
 
+# Cloudinary
+CLOUDINARY_NAME = ''
+CLOUDINARY_API_KEY = ''
+CLOUDINARY_SECRET_KEY = ''
+
 ```
 
 ## 2. Install docker needed
 
-* MongoDB
+- MongoDB
   ```shell
   docker run --name mdb -d -p 27017:27017 mongo
   ```
-  
-* Redis
+- Redis
+
   ```shell
   docker run --name rdb -d -p 6379:6379 redis
   ```
 
-* RabbitMq
+- RabbitMq
   ```shell
   docker run --name rabbitMQ -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
   ```
