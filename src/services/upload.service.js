@@ -1,5 +1,10 @@
 'use strict';
+const crypto = require('crypto');
 const cloudinary = require('../configs/cloudinary.config');
+const { PutObjectCommand, S3, GetObjectCommand } = require('../configs/s3.config');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+
+const { AWS_S3_NAME } = process.env;
 
 class UploadService {
 	// upload S3
@@ -43,8 +48,27 @@ class UploadService {
 				})
 			});
 		}
-
 		return uploadList;
+	};
+
+	static uploadS3ByFile = async (file) => {
+		const randomImageName = crypto.randomBytes(16).toString('hex');
+		const command = new PutObjectCommand({
+			Bucket: AWS_S3_NAME,
+			Key: randomImageName,
+			Body: file.buffer,
+			ContentType: file.mimetype
+		});
+
+		// upload file to S3 server
+		S3.send(command);
+
+		const singerUrl = new GetObjectCommand({
+			Bucket: AWS_S3_NAME,
+			Key: randomImageName
+		});
+
+		return await getSignedUrl(S3, singerUrl, { expiresIn: 3600 });
 	};
 }
 

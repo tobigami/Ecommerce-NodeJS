@@ -28,6 +28,14 @@ class Upload {
 			metadata: await UploadService.uploadByFiles({ files: files, ...res.body })
 		}).send(res);
 	};
+
+	upLoadS3ByFiles = async (req, res, next) => {
+		const { file } = req;
+		return new SuccessResponse({
+			message: 'Upload S3 Image success!',
+			metadata: await UploadService.uploadS3ByFile(file)
+		}).send(res);
+	};
 }
 
 module.exports = new Upload();

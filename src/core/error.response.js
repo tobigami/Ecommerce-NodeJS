@@ -37,10 +37,7 @@ class ForbiddenError extends ErrorResponse {
 }
 
 class RedisError extends ErrorResponse {
-	constructor(
-		message = ReasonPhrases.INTERNAL_SERVER_ERROR,
-		status = ReasonPhrases.INTERNAL_SERVER_ERROR
-	) {
+	constructor(message = ReasonPhrases.INTERNAL_SERVER_ERROR, status = ReasonPhrases.INTERNAL_SERVER_ERROR) {
 		super(message, status);
 	}
 }

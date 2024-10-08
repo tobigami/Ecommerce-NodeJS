@@ -4,12 +4,7 @@ const { NotifyEnum } = require('../configs/enum');
 const NotifyModel = require('../models/notification.model');
 
 class NotificationService {
-	static async PushToNotifySystem({
-		type = NotifyEnum.SHOP_NEW_PRO,
-		receiver = 1,
-		sender = 1,
-		options = {}
-	}) {
+	static async PushToNotifySystem({ type = NotifyEnum.SHOP_NEW_PRO, receiver = 1, sender = 1, options = {} }) {
 		let content;
 
 		// strategy design pattern

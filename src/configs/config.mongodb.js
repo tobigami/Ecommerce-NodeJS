@@ -1,14 +1,6 @@
 'use strict';
 
-const {
-	DEV_APP_PORT,
-	DEV_DB_PORT,
-	DEV_DB_NAME,
-	PRO_APP_PORT,
-	PRO_DB_PORT,
-	PRO_DB_NAME,
-	ENVIRONMENT
-} = process.env;
+const { DEV_APP_PORT, DEV_DB_PORT, DEV_DB_NAME, PRO_APP_PORT, PRO_DB_PORT, PRO_DB_NAME, ENVIRONMENT } = process.env;
 
 // level 0
 // const config = {

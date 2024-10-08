@@ -35,11 +35,7 @@ class AccessService {
 		if (!foundShop) throw new AuthFailureError('Shop is not registered');
 
 		// create new token
-		const tokens = await createTokenPair(
-			{ userId, email },
-			keyStore.publicKey,
-			keyStore.privateKey
-		);
+		const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey);
 
 		// update token
 		await keyStore.updateOne({

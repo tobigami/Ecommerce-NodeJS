@@ -15,10 +15,7 @@ const findAllPublishForShop = async ({ query, limit, skip }) => {
 const searchProductByUser = async ({ keySearch }) => {
 	const regexSearch = new RegExp(keySearch);
 	const results = await product
-		.find(
-			{ is_published: true, $text: { $search: regexSearch } },
-			{ score: { $meta: 'textScore' } }
-		)
+		.find({ is_published: true, $text: { $search: regexSearch } }, { score: { $meta: 'textScore' } })
 		.sort({ score: { $meta: 'textScore' } })
 		.lean();
 	return results;
@@ -66,13 +63,7 @@ const queryProduct = async ({ query, limit, skip }) => {
 const findAllProducts = async ({ limit, sort, page, filter, select }) => {
 	const skip = (page - 1) * limit;
 	sort = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
-	const products = await product
-		.find(filter)
-		.sort(sort)
-		.skip(skip)
-		.limit(limit)
-		.select(getSelectData(select))
-		.lean();
+	const products = await product.find(filter).sort(sort).skip(skip).limit(limit).select(getSelectData(select)).lean();
 
 	return products;
 };

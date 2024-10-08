@@ -67,12 +67,7 @@ class ProductFactory {
 		return await searchProductByUser({ keySearch });
 	}
 
-	static async findAllProducts({
-		limit = 50,
-		sort = 'ctime',
-		page = 1,
-		filter = { is_published: true }
-	}) {
+	static async findAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = { is_published: true } }) {
 		return await findAllProducts({
 			limit,
 			sort,
@@ -175,10 +170,7 @@ class Clothing extends Product {
 		}
 
 		// update parent product model
-		const updateProduct = await super.updateProduct(
-			productId,
-			updateNestedObjectParse(objectParams)
-		);
+		const updateProduct = await super.updateProduct(productId, updateNestedObjectParse(objectParams));
 		return updateProduct;
 	}
 }

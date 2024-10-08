@@ -11,12 +11,7 @@ const notificationSchema = new Schema(
 		notify_type: {
 			type: String,
 			required: true,
-			enum: [
-				NotifyEnum.SHOP_NEW_PRO,
-				NotifyEnum.ORDER_FAILED,
-				NotifyEnum.ORDER_SUCCESS,
-				NotifyEnum.PROMOTION_NEW
-			]
+			enum: [NotifyEnum.SHOP_NEW_PRO, NotifyEnum.ORDER_FAILED, NotifyEnum.ORDER_SUCCESS, NotifyEnum.PROMOTION_NEW]
 		},
 		notify_senderID: { type: Schema.Types.ObjectId, ref: 'Shop' },
 		notify_receiverId: { type: Number, required: true },

@@ -8,11 +8,7 @@ const {
 	updateDiscountById,
 	findAllDiscountCodesUnSelectData
 } = require('../models/repositories/discount.repo');
-const {
-	convertToObjectIdMongodb,
-	removeUndefinedObject,
-	updateNestedObjectParse
-} = require('../utils');
+const { convertToObjectIdMongodb, removeUndefinedObject, updateNestedObjectParse } = require('../utils');
 const { product } = require('../models/product.model');
 
 /**
@@ -216,9 +212,7 @@ class DiscountService {
 			}, 0);
 
 			if (totalOrder < discount_min_order_value) {
-				throw new NotFoundError(
-					`Discount code requires minimum amount order ${discount_min_order_value}`
-				);
+				throw new NotFoundError(`Discount code requires minimum amount order ${discount_min_order_value}`);
 			}
 
 			if (discount_max_uses_per_user > 0) {
@@ -228,8 +222,7 @@ class DiscountService {
 				}
 			}
 
-			const amount =
-				discount_type === 'fixed_amount' ? discount_value : (totalOrder * discount_value) / 100;
+			const amount = discount_type === 'fixed_amount' ? discount_value : (totalOrder * discount_value) / 100;
 
 			return {
 				totalOrder,

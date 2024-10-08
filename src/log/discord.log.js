@@ -23,11 +23,7 @@ class LogService {
 	}
 
 	sendToFormatCode(logData) {
-		const {
-			code,
-			message = 'This is some additional information about the code.',
-			title = 'Code Example'
-		} = logData;
+		const { code, message = 'This is some additional information about the code.', title = 'Code Example' } = logData;
 
 		const codeMessage = {
 			content: message,
