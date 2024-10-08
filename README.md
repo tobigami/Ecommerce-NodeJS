@@ -46,6 +46,11 @@ CLOUDINARY_NAME = ''
 CLOUDINARY_API_KEY = ''
 CLOUDINARY_SECRET_KEY = ''
 
+#AWS
+AWS_S3_NAME = ''
+AWS_S3_API_KEY= ''
+AWS_S3_SECRET_KEY= ''
+
 ```
 
 ## 2. Install docker needed
