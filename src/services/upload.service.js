@@ -2,13 +2,11 @@
 const crypto = require('crypto');
 const cloudinary = require('../configs/cloudinary.config');
 const { PutObjectCommand, S3, GetObjectCommand } = require('../configs/s3.config');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const { getSignedUrl } = require('@aws-sdk/cloudfront-signer');
 
-const { AWS_S3_NAME } = process.env;
+const { AWS_S3_NAME, AWS_CLOUD_FRONT, CLOUD_FRONT_PRIVATE_KEY, AWS_KEY_PUBLIC_ID } = process.env;
 
 class UploadService {
-	// upload S3
-
 	// upload cloudinary
 	static uploadByUrl = async (url) => {
 		return await cloudinary.uploader.upload(url);
@@ -51,6 +49,7 @@ class UploadService {
 		return uploadList;
 	};
 
+	// upload S3
 	static uploadS3ByFile = async (file) => {
 		const randomImageName = crypto.randomBytes(16).toString('hex');
 		const command = new PutObjectCommand({
@@ -61,14 +60,17 @@ class UploadService {
 		});
 
 		// upload file to S3 server
-		S3.send(command);
-
-		const singerUrl = new GetObjectCommand({
-			Bucket: AWS_S3_NAME,
-			Key: randomImageName
+		const uploadResult = await S3.send(command);
+		const url = await getSignedUrl({
+			url: `${AWS_CLOUD_FRONT}/${randomImageName}`,
+			keyPairId: AWS_KEY_PUBLIC_ID,
+			dateLessThan: new Date(Date.now() + 1000 * 60),
+			privateKey: CLOUD_FRONT_PRIVATE_KEY
 		});
-
-		return await getSignedUrl(S3, singerUrl, { expiresIn: 3600 });
+		return {
+			url,
+			...uploadResult
+		};
 	};
 }
 

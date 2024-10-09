@@ -50,6 +50,9 @@ CLOUDINARY_SECRET_KEY = ''
 AWS_S3_NAME = ''
 AWS_S3_API_KEY= ''
 AWS_S3_SECRET_KEY= ''
+AWS_CLOUD_FRONT = ''
+AWS_KEY_PUBLIC_ID= '
+CLOUD_FRONT_PRIVATE_KEY= ''
 
 ```
 
@@ -70,7 +73,21 @@ AWS_S3_SECRET_KEY= ''
   docker run --name rabbitMQ -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
   ```
 
-## 3. Start with pm2
+## 3. Gen key
+
+- private key
+
+```shell
+openssl genrsa -out private_key.pem 2048
+```
+
+- public key
+
+```shell
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
+
+## 4. Start with pm2
 
 ```shell
 pm2 start npm --name NodeJs -- run dev --watch
