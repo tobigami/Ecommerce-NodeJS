@@ -53,7 +53,6 @@ AWS_S3_SECRET_KEY= ''
 AWS_CLOUD_FRONT = ''
 AWS_KEY_PUBLIC_ID= '
 CLOUD_FRONT_PRIVATE_KEY= ''
-
 ```
 
 ## 2. Install docker needed
@@ -92,3 +91,5 @@ openssl rsa -pubout -in private_key.pem -out public_key.pem
 ```shell
 pm2 start npm --name NodeJs -- run dev --watch
 ```
+
+## 5. CI/CD
