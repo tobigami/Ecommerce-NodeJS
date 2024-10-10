@@ -13,10 +13,10 @@ const inventorySchema = new Schema(
 		inven_stock: { type: Number, required: true },
 		inven_reservations: { type: Array, default: [] }
 		/*
-            cartId
-            stock
-            createOn
-        */
+      cartId
+      stock
+      createOn
+    */
 	},
 	{
 		timestamps: true,
