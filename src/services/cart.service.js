@@ -1,6 +1,6 @@
 const cartModel = require('../models/cart.model');
 const { NotFoundError, BadRequestError } = require('../core/error.response.js');
-const { createUserCart, updateUserCartQuantity } = require('../models/repositories/cart.repo');
+const { createUserCart, updateUserCartQuantity, pushProductToCart } = require('../models/repositories/cart.repo');
 const { findProductById } = require('../models/repositories/product.repo');
 
 /**
@@ -16,24 +16,25 @@ const { findProductById } = require('../models/repositories/product.repo');
 class CartService {
 	// 1. Add to cart
 	static async addToCart({ userId, product = {} }) {
-		// check su ton tai cua cart userID
+		// check cart userId exists
 		const userCart = await cartModel.findOne({ cart_userId: userId });
 		if (!userCart) {
-			// create new cart  for user
-			// note lấy lại tên và giá sản phẩm từ db truyền vào để tạo cart (pending)
+			// create new cart  for user || note get name, price form db to create userCart (pending)
 			return await createUserCart({ userId, product });
 		}
 
-		// nếu tồn tại cart những chưa có sản phẩm
+		// case no item in cart
 		if (!userCart.cart_products.length) {
 			userCart.cart_products = [product];
 			return await userCart.save();
 		}
 
-		// nếu tồn tại cart và đã có sản phẩm đó trong cart thì update quantity
-		return await updateUserCartQuantity({ userId, product });
-
-		// nếu tồn tại cart nhưng chưa có sản phẩm đó trong cart thì thêm sản phẩm đố vào cart_products (pendding)
+		if (userCart.cart_products.some((pro) => pro.productId === product.productId)) {
+			// update quantity case update quantity item if product exist in cart
+			return await updateUserCartQuantity({ userId, product });
+		}
+		// push product to cart when product not exist in cart
+		return await pushProductToCart({ userId: userId, product: product });
 	}
 
 	// 2. Update cart item

@@ -36,4 +36,17 @@ const findCartById = async (cartId) => {
 	return cartModel.findOne({ _id: convertToObjectIdMongodb(cartId), cart_state: 'active' }).lean();
 };
 
-module.exports = { createUserCart, updateUserCartQuantity, findCartById };
+const pushProductToCart = async ({ userId, product }) => {
+	const query = {
+			cart_userId: userId,
+			cart_state: 'active'
+		},
+		update = {
+			$push: { cart_products: product }
+		},
+		options = { new: true };
+
+	return await cartModel.findOneAndUpdate(query, update, options);
+};
+
+module.exports = { createUserCart, updateUserCartQuantity, findCartById, pushProductToCart };

@@ -10,39 +10,39 @@ class CheckoutService {
     login and without login
     payload:
     {
-        cartId,
-        userId,
-        shopOrderIds: [
-            {
-                shopId,
-                shopDiscounts,
-                itemProducts: [
-                    {
-                        productId,
-                        price,
-                        quantity
-                    }
-                ]
-            },
-            {
-                shopId,
-                shopDiscounts: [
-                    {
-                        shopId,
-                        discountId,
-                        codeId
-                    }
-                ],
-                itemProducts: [
-                    {
-                        productId,
-                        price,
-                        quanityt
-                    }
-                ]
-            }
-        ]
-    }
+    "cartId": "",
+    "userId": "",
+    "shopOrderIds": [
+        {
+            "shopId": "",
+            "shopDiscounts": "",
+            "itemProducts": [
+                {
+                    "productId": "",
+                    "price": "",
+                    "quantity": ""
+                }
+            ]
+        },
+        {
+            "shopId": "",
+            "shopDiscounts": [
+                {
+                    "shopId": "",
+                    "discountId": "",
+                    "codeId": ""
+                }
+            ],
+            "itemProducts": [
+                {
+                    "productId": "",
+                    "price": "",
+                    "quantity": ""
+                }
+            ]
+        }
+    ]
+}
     */
 
 	static async checkoutReview({ cartId, userId, shopOrderIds }) {
@@ -113,6 +113,16 @@ class CheckoutService {
 			shopOrderIdsNew,
 			checkoutOrder
 		};
+	}
+
+	static async finalCheckoutByUser({ cartId, userId, shopOrderIds, userAddress = {}, usePayment = {} }) {
+		const { shopOrderIdsNew, checkoutOrder } = CheckoutService.checkoutReview({ cartId, userId, shopOrderIds });
+
+		//
+		const products = shopOrderIdsNew.flatMap((order) => order.itemProducts);
+		for (let i = 0; i < products.length; i++) {
+			const { productId, quantity } = products[i];
+		}
 	}
 }
 
