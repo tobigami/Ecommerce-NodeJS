@@ -21,8 +21,7 @@ app.use(
 app.use(
 	cors({
 		origin: '*', // Replace with your frontend URL
-		methods: ['GET', 'POST', 'PUT', 'DELETE'],
-		allowedHeaders: ['*']
+		methods: ['GET', 'POST', 'PUT', 'DELETE']
 	})
 );
 
