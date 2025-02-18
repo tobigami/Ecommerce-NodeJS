@@ -25,5 +25,6 @@ router.use('/v1/api/test', require('./test'));
 router.use('/v1/api/notification', require('./notification'));
 router.use('/v1/api/upload', require('./upload'));
 router.use('/v1/api', require('./access'));
+router.use('/v1/api/user', require('./user'));
 
 module.exports = router;

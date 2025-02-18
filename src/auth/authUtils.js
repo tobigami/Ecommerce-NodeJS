@@ -5,7 +5,7 @@ const { findByUserId } = require('../services/keyToken.service');
 
 const HEADER = {
 	API_KEY: 'x-api-key',
-	CLIENT_ID: 'x-client-id',
+	CLIENT_ID: 'x-client-id', // userId
 	AUTHORIZATION: 'authorization',
 	REFRESHTOKEN: 'refreshtoken'
 };
