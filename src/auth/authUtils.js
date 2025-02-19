@@ -75,7 +75,7 @@ const authentication = asyncHandler(async (req, res, next) => {
 		req.user = decodeUser;
 		return next();
 	} catch (error) {
-		throw error;
+		throw new AuthFailureError(error.message);
 	}
 });
 
