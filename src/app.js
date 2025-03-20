@@ -33,6 +33,8 @@ app.use(
 // init db
 require('./dbs/connectDB');
 const initRedis = require('./dbs/init.redis');
+const { connectMysqlDB } = require('./dbs/init.mysql');
+connectMysqlDB();
 initRedis.initRedis();
 
 // init routers

@@ -26,7 +26,6 @@ class CartController {
 	};
 
 	getCart = async (req, res, next) => {
-		console.log('req', req.query);
 		return new SuccessResponse({
 			message: `Get cart by userId success`,
 			metadata: await CartService.getCartByUserId(req.query.userId)
