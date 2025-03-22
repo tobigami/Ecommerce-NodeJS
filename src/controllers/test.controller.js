@@ -31,6 +31,21 @@ class TestController {
 			metadata: await TestService.bulkDeleteFavourites(req.body.ids)
 		}).send(res);
 	};
+
+	// history
+	getHistory = async (req, res, next) => {
+		return new SuccessResponse({
+			message: 'get history successfully',
+			metadata: await TestService.getHistory(req.query)
+		}).send(res);
+	};
+
+	bulkDeleteHistory = async (req, res, next) => {
+		return new SuccessResponse({
+			message: 'bulk delete history successfully',
+			metadata: await TestService.bulkDeleteHistory(req.body.ids)
+		}).send(res);
+	};
 }
 
 module.exports = new TestController();

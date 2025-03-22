@@ -6,7 +6,9 @@ const { convertToObjectIdMongodb } = require('../utils');
 const {
 	addFavouritesRepo,
 	getFavouritesRepo,
-	deleteFavouritesRepo
+	deleteFavouritesRepo,
+	getHistoryRepo,
+	deleteHistoryRepo
 } = require('../models/repositories/favourites.repo');
 
 class TestService {
@@ -38,6 +40,21 @@ class TestService {
 
 	static async bulkDeleteFavourites(ids) {
 		return await deleteFavouritesRepo(ids);
+	}
+
+	// history
+	static async getHistory(query) {
+		const { size, page, tableSearch, sort } = query;
+		return await getHistoryRepo({
+			size: size || 10,
+			page: page || 1,
+			keyword: tableSearch || '',
+			sort: sort || 'name,asc'
+		});
+	}
+
+	static async bulkDeleteHistory(ids) {
+		return await deleteHistoryRepo(ids);
 	}
 }
 

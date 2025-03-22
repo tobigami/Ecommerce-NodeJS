@@ -3,8 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		const favourites = Array.from({ length: 300 }, (_, index) => ({
-			name: `Favourite Item ${index + 1}`,
+		const document = Array.from({ length: 300 }, (_, index) => ({
+			name: `Document Item ${index + 1}`,
 			author: `Author ${Math.floor(index / 3) + 1}`,
 			view: Math.floor(Math.random() * 1000),
 			download: Math.floor(Math.random() * 500),
@@ -12,10 +12,10 @@ module.exports = {
 			updatedAt: new Date()
 		}));
 
-		await queryInterface.bulkInsert('Favourites', favourites, {});
+		await queryInterface.bulkInsert('Document', document, {});
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.bulkDelete('Favourites', null, {});
+		await queryInterface.bulkDelete('Document', null, {});
 	}
 };
