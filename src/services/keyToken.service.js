@@ -6,12 +6,10 @@ const {
 } = require('mongoose');
 
 class KeyTokenService {
-	static createKeyToken = async ({ userId, publicKey, privateKey, refreshToken }) => {
+	static createKeyToken = async ({ userId, refreshToken }) => {
 		try {
 			const filter = { user: userId },
 				update = {
-					publicKey,
-					privateKey,
 					refreshTokenUsed: [],
 					refreshToken
 				},
@@ -20,9 +18,7 @@ class KeyTokenService {
 					new: true // return ve document update thay vi document original
 				};
 
-			const token = await keyTokenModel.findOneAndUpdate(filter, update, options);
-
-			return token ? token.publicKey : null;
+			return await keyTokenModel.findOneAndUpdate(filter, update, options);
 		} catch (error) {
 			return error;
 		}

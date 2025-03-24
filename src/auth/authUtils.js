@@ -1,3 +1,4 @@
+const { AUTH_PRIVATE, AUTH_PUBLIC } = process.env;
 const JWT = require('jsonwebtoken');
 const asyncHandler = require('../helper/asyncHandler');
 const { AuthFailureError, NotFoundError } = require('../core/error.response');
@@ -10,22 +11,16 @@ const HEADER = {
 	REFRESHTOKEN: 'refreshtoken'
 };
 
-const createTokenPair = async (payload, publicKey, privateKey) => {
+const createTokenPair = async (payload) => {
 	try {
-		const accessToken = await JWT.sign(payload, publicKey, {
-			expiresIn: '2 days'
+		const accessToken = await JWT.sign(payload, AUTH_PRIVATE, {
+			expiresIn: '2 days',
+			algorithm: 'RS256'
 		});
 
-		const refreshToken = await JWT.sign(payload, privateKey, {
-			expiresIn: '7 days'
-		});
-
-		JWT.verify(accessToken, publicKey, (err, decode) => {
-			if (err) {
-				console.log('error verify', err);
-			} else {
-				console.log('decode verify', decode);
-			}
+		const refreshToken = await JWT.sign(payload, AUTH_PRIVATE, {
+			expiresIn: '7 days',
+			algorithm: 'RS256'
 		});
 
 		return { accessToken, refreshToken };
@@ -42,19 +37,19 @@ const authentication = asyncHandler(async (req, res, next) => {
 	 * 6. OK next()
 	 */
 
-	// 1
+	// 1. Check userID missing
 	const userId = req.headers[HEADER.CLIENT_ID];
 	if (!userId) throw new AuthFailureError('Invalid Request');
 
-	//2
+	// 2.
 	const keyStore = await findByUserId(userId);
 	if (!keyStore) throw new NotFoundError('Not found key store');
 
-	//3
+	// 3.
 	if (req.headers[HEADER.REFRESHTOKEN]) {
 		const refreshToken = req.headers[HEADER.REFRESHTOKEN];
 		try {
-			const decodeUser = JWT.verify(refreshToken, keyStore.privateKey);
+			const decodeUser = JWT.verify(refreshToken, AUTH_PUBLIC);
 			if (decodeUser.userId !== userId) throw new AuthFailureError('Invalid User Id');
 			req.keyStore = keyStore;
 			req.refreshToken = refreshToken;
@@ -69,7 +64,7 @@ const authentication = asyncHandler(async (req, res, next) => {
 	if (!accessToken) throw new AuthFailureError('Invalid Request');
 
 	try {
-		const decodeUser = JWT.verify(accessToken, keyStore.publicKey);
+		const decodeUser = JWT.verify(accessToken, AUTH_PUBLIC);
 		if (decodeUser.userId !== userId) throw new AuthFailureError('Invalid User Id');
 		req.keyStore = keyStore;
 		req.user = decodeUser;

@@ -2,7 +2,6 @@
 
 const shopModel = require('../models/shop.model');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 const { createKeyToken } = require('./keyToken.service');
 const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
@@ -35,7 +34,7 @@ class AccessService {
 		if (!foundShop) throw new AuthFailureError('Shop is not registered');
 
 		// create new token
-		const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey);
+		const tokens = await createTokenPair({ userId, email });
 
 		// update token
 		await keyStore.updateOne({
@@ -63,8 +62,7 @@ class AccessService {
 		 * 1. Check email in db
 		 * 2. Match Password
 		 * 3. Create and Save AT, RT
-		 * 4. Generate token
-		 * 5. Return data login
+		 * 4. Return data login
 		 */
 
 		//1. Check email
@@ -72,23 +70,18 @@ class AccessService {
 		if (!foundShop) throw new BadRequestError('Shop not registered');
 
 		//2. Match password
-		const match = bcrypt.compare(password, foundShop.password);
+		const match = await bcrypt.compare(password, foundShop.password);
 		if (!match) throw new AuthFailureError('Authentication Error');
 
-		//3. Create private key and public key
-		const privateKey = crypto.randomBytes(64).toString('hex');
-		const publicKey = crypto.randomBytes(64).toString('hex');
-
-		//4. Create Token
-		const tokens = await createTokenPair({ userId: foundShop._id, email }, publicKey, privateKey);
+		//3. Create AT, RT
+		const tokens = await createTokenPair({ userId: foundShop._id, email });
 
 		await KeyTokenService.createKeyToken({
 			refreshToken: tokens.refreshToken,
-			privateKey,
-			publicKey,
 			userId: foundShop._id
 		});
 
+		// 4. Return data login
 		return {
 			metadata: getInfoData({
 				fields: ['_id', 'name', 'email'],
@@ -114,26 +107,13 @@ class AccessService {
 		});
 
 		if (newShop) {
-			// create public key and private key
-			const privateKey = crypto.randomBytes(64).toString('hex');
-			const publicKey = crypto.randomBytes(64).toString('hex');
-
 			// Save collection keyStore
-			const keyStore = await createKeyToken({
-				userId: newShop._id,
-				publicKey,
-				privateKey
+			await createKeyToken({
+				userId: newShop._id
 			});
 
-			if (!keyStore) {
-				return {
-					code: 'xxxx',
-					message: 'error publickeyString'
-				};
-			}
-
 			// create token pair
-			const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey);
+			const tokens = await createTokenPair({ userId: newShop._id, email });
 
 			return {
 				code: 201,
