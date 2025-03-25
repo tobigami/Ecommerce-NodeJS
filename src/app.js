@@ -7,22 +7,22 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-// init middleware
+// 1. init middleware
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(
 	express.urlencoded({
-		extended: true
-	})
+		extended: true,
+	}),
 );
 
 app.use(
 	cors({
 		origin: '*', // Replace with your frontend URL
-		methods: ['GET', 'POST', 'PUT', 'DELETE']
-	})
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+	}),
 );
 
 // test pub/sub redis
@@ -30,16 +30,18 @@ app.use(
 // const productTest = require('./Test/product.test');
 // productTest.purchaseProduct('product:001', 10);
 
-// init db
-require('./dbs/connectDB');
-const initRedis = require('./dbs/init.redis');
-const { connectMysqlDB } = require('./dbs/init.mysql');
-connectMysqlDB();
-initRedis.initRedis();
+// 2. INIT DATA BASE
+const redisDb = require('./dbs/init.redis.v2'); // redis
+redisDb.init();
 
-// init routers
+const { connectMysqlDB } = require('./dbs/init.mysql'); // mysql
+connectMysqlDB();
+
+require('./dbs/connectDB'); // mongo
+
+// 3. INIT ROUTERS
 app.use('', require('./routers'));
-// handling error
+// 4. HANDLING ERROR
 app.use((req, res, next) => {
 	const error = new Error('Not Found');
 	error.status = 404;
@@ -52,7 +54,7 @@ app.use((error, req, res, next) => {
 		status: 'error',
 		code: statusCode,
 		stack: error.stack,
-		message: error.message || 'Internal Server Error'
+		message: error.message || 'Internal Server Error',
 	});
 });
 

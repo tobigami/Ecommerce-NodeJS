@@ -2,24 +2,23 @@
 
 const testModel = require('../models/test.model');
 const commentModel = require('../models/comment.model');
+const rdb = require('../dbs/init.redis.v2');
 const { convertToObjectIdMongodb } = require('../utils');
 const {
 	addFavouritesRepo,
 	getFavouritesRepo,
 	deleteFavouritesRepo,
-	getHistoryRepo,
-	deleteHistoryRepo
 } = require('../models/repositories/favourites.repo');
 
 class TestService {
 	static async createTest({ name, old, gender, shop }) {
 		const comment = await commentModel.findOne({
-			comment_productId: convertToObjectIdMongodb(shop)
+			comment_productId: convertToObjectIdMongodb(shop),
 		});
 
 		return {
 			name: 'thanhdd',
-			age: 20
+			age: 20,
 		};
 	}
 
@@ -29,13 +28,43 @@ class TestService {
 	}
 
 	static async getFavourites(query) {
-		const { size, page, keyword, sort } = query;
-		return await getFavouritesRepo({
-			size: size || 10,
-			page: page || 1,
-			keyword: keyword || '',
-			sort: sort || 'name,asc'
-		});
+		const { size = 1, page = 1, tableSearch = '', sort = 'name,asc' } = query;
+		const cacheKey = `favorites:${size}:${page}:${sort}`;
+		const redisIns = rdb.get();
+
+		try {
+			const cacheData = await redisIns.get(cacheKey);
+
+			if (cacheData) {
+				console.log('caching data');
+				return JSON.parse(cacheData);
+			}
+
+			const res = await getFavouritesRepo({
+				size,
+				page,
+				keyword: tableSearch,
+				sort,
+			});
+
+			console.log('fetching data');
+
+			redisIns.set(cacheKey, JSON.stringify(res), 'EX', 5);
+			return res;
+		} catch (error) {
+			throw error;
+		}
+
+		// const check = await redisIns.get('name');
+
+		// console.log('check :>> ', check);
+
+		// return await getFavouritesRepo({
+		// 	size,
+		// 	page,
+		// 	keyword: tableSearch,
+		// 	sort,
+		// });
 	}
 
 	static async bulkDeleteFavourites(ids) {
@@ -49,7 +78,7 @@ class TestService {
 			size: size || 10,
 			page: page || 1,
 			keyword: tableSearch || '',
-			sort: sort || 'name,asc'
+			sort: sort || 'name,asc',
 		});
 	}
 

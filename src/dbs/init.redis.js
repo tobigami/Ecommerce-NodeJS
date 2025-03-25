@@ -1,3 +1,5 @@
+// connect with redis
+
 'use strict';
 const redis = require('redis');
 const { REDIS_URL } = process.env;
@@ -9,7 +11,7 @@ let client = {},
 		CONNECT: 'connect', // trigger sau khi connect thanh cong
 		END: 'end', // trigger khi ket noi bi ngat
 		RECONNECT: 'reconnecting', // trigger khi redis co gang ket noi lai khi xay ra su kien END
-		ERROR: 'error' // trigger khi co bat ky loi gi xay ra trong qua trinh connect
+		ERROR: 'error', // trigger khi co bat ky loi gi xay ra trong qua trinh connect
 	},
 	connectTimeout;
 
@@ -39,7 +41,7 @@ const handleEventConnection = ({ connectionRedis }) => {
 		Logger.sendToFormatCode({
 			title: `Method": Reconnect Redis DB`,
 			code: 'Error',
-			message: `Method": Reconnect Redis DB`
+			message: `Method": Reconnect Redis DB`,
 		});
 		clearTimeout(connectTimeout);
 	});
@@ -51,7 +53,7 @@ const handleEventConnection = ({ connectionRedis }) => {
 
 const initRedis = () => {
 	const instanceRedis = redis.createClient({
-		url: REDIS_URL
+		url: REDIS_URL,
 	});
 
 	client.instanceRedis = instanceRedis;
@@ -67,5 +69,5 @@ const closeRedis = () => {
 module.exports = {
 	initRedis,
 	getRedis,
-	closeRedis
+	closeRedis,
 };
