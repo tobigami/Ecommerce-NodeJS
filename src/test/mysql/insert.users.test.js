@@ -9,12 +9,12 @@ const mysql = require('mysql2');
 const pool = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
-	password: '12345',
-	database: 'dev'
+	password: '1234',
+	database: 'dev',
 });
 
-const batchSize = 10000;
-const totalSize = 20_000_000;
+const batchSize = 1000;
+const totalSize = 20_000;
 
 let currentId = 1;
 
@@ -26,7 +26,10 @@ const insertBatch = async () => {
 		const name = `User_${currentId}`;
 		const age = Math.floor(Math.random() * (30 - 18) + 18);
 		const email = `user_${currentId}@example.com`;
-		value.push([currentId, name, email, age]);
+		const now = new Date();
+		const createdAt = now;
+		const updatedAt = now;
+		value.push([currentId, name, email, age, createdAt, updatedAt]);
 		currentId++;
 	}
 
@@ -42,7 +45,7 @@ const insertBatch = async () => {
 		return;
 	}
 
-	const sql = `INSERT INTO users (id, name, email, age) VALUES ?`;
+	const sql = `INSERT INTO Users (id, name, email, age, createdAt, updatedAt) VALUES ?`;
 	pool.query(sql, [value], async function (err, result) {
 		if (err) throw err;
 		console.log(`inserted ${result.affectedRows} record`);
