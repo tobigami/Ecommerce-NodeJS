@@ -8,7 +8,7 @@ Example `.env`:
 
 ```shell
 # APP
-ENVIRONMENT ='dev'
+ENVIRONMENT ='development'
 PORT='3055'
 # DB DEV
 DEV_APP_PORT='3055'

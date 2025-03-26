@@ -10,6 +10,8 @@ const {
 	deleteFavouritesRepo,
 } = require('../models/repositories/favourites.repo');
 
+const { addClickTrackingRepo } = require('../models/repositories/click.repo');
+
 class TestService {
 	static async createTest({ name, old, gender, shop }) {
 		const comment = await commentModel.findOne({
@@ -28,7 +30,7 @@ class TestService {
 	}
 
 	static async getFavourites(query) {
-		const { size = 1, page = 1, tableSearch = '', sort = 'name,asc' } = query;
+		const { size = 10, page = 1, tableSearch = '', sort = 'name,asc' } = query;
 		const cacheKey = `favorites:${size}:${page}:${sort}`;
 		const redisIns = rdb.get();
 
@@ -36,7 +38,6 @@ class TestService {
 			const cacheData = await redisIns.get(cacheKey);
 
 			if (cacheData) {
-				console.log('caching data');
 				return JSON.parse(cacheData);
 			}
 
@@ -47,24 +48,11 @@ class TestService {
 				sort,
 			});
 
-			console.log('fetching data');
-
-			redisIns.set(cacheKey, JSON.stringify(res), 'EX', 5);
+			redisIns.set(cacheKey, JSON.stringify(res), 'EX', 60);
 			return res;
 		} catch (error) {
 			throw error;
 		}
-
-		// const check = await redisIns.get('name');
-
-		// console.log('check :>> ', check);
-
-		// return await getFavouritesRepo({
-		// 	size,
-		// 	page,
-		// 	keyword: tableSearch,
-		// 	sort,
-		// });
 	}
 
 	static async bulkDeleteFavourites(ids) {
@@ -84,6 +72,11 @@ class TestService {
 
 	static async bulkDeleteHistory(ids) {
 		return await deleteHistoryRepo(ids);
+	}
+
+	// click tracking
+	static async addClickTracking({ productId, userId }) {
+		return await addClickTrackingRepo({ productId, userId });
 	}
 }
 

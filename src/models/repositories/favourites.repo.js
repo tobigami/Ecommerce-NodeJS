@@ -1,6 +1,6 @@
 'use strict';
 const { Op } = require('sequelize');
-const favouritesModel = require('../favourites.model');
+const favouritesModel = require('../mysql/favourites.model');
 
 const addFavouritesRepo = async ({ name, author, view, download }) => {
 	return await favouritesModel.create({ name, author, view, download });
@@ -31,8 +31,6 @@ const getFavouritesRepo = async ({ size, page, keyword, sort }) => {
 			}),
 		},
 	});
-
-	console.log('totalRecord :>> ', totalRecord);
 
 	const data = await favouritesModel.findAll({
 		where: {

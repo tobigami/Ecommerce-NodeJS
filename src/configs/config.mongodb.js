@@ -14,25 +14,25 @@ const { DEV_APP_PORT, DEV_DB_PORT, DEV_DB_NAME, PRO_APP_PORT, PRO_DB_PORT, PRO_D
 // }
 
 // level 1
-const dev = {
+const development = {
 	app: {
-		port: DEV_APP_PORT
+		port: DEV_APP_PORT,
 	},
 	db: {
 		host: DEV_DB_PORT,
-		name: DEV_DB_NAME
-	}
+		name: DEV_DB_NAME,
+	},
 };
 
 const pro = {
 	app: {
-		port: PRO_APP_PORT
+		port: PRO_APP_PORT,
 	},
 	db: {
 		host: PRO_DB_PORT,
-		name: PRO_DB_NAME
-	}
+		name: PRO_DB_NAME,
+	},
 };
 
-const config = { dev, pro };
-module.exports = config[ENVIRONMENT || 'dev'];
+const config = { development, pro };
+module.exports = config[ENVIRONMENT || 'development'];

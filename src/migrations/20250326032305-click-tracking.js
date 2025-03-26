@@ -3,7 +3,7 @@
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		await queryInterface.createTable(
-			'Favourites',
+			'ClickTracking',
 			{
 				id: {
 					allowNull: false,
@@ -11,28 +11,27 @@ module.exports = {
 					primaryKey: true,
 					type: Sequelize.INTEGER,
 				},
-				name: {
-					type: Sequelize.TEXT,
-					allowNull: false,
-				},
-				author: {
-					type: Sequelize.STRING(500),
-					allowNull: false,
-				},
-				view: {
+				userId: {
 					type: Sequelize.INTEGER,
-					defaultValue: 0,
-				},
-				download: {
 					allowNull: false,
+				},
+				productId: {
 					type: Sequelize.INTEGER,
+					allowNull: false,
+				},
+				count: {
+					type: Sequelize.INTEGER.UNSIGNED,
 					defaultValue: 0,
 				},
 				createdAt: {
 					type: Sequelize.DATE,
+					allowNull: false,
+					defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 				},
 				updatedAt: {
 					type: Sequelize.DATE,
+					allowNull: false,
+					defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
 				},
 			},
 			{
@@ -40,9 +39,14 @@ module.exports = {
 				collate: 'utf8_general_ci',
 			},
 		);
+
+		await queryInterface.addConstraint('ClickTracking', {
+			fields: ['userId', 'productId'],
+			type: 'unique',
+			name: 'unique_user_product_tracking',
+		});
 	},
 	async down(queryInterface, Sequelize) {
-		console.log('down................e');
-		await queryInterface.dropTable('Favourites');
+		await queryInterface.dropTable('ClickTracking');
 	},
 };
