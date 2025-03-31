@@ -54,6 +54,46 @@ class TestController {
 			metadata: await TestService.addClickTracking(req.body),
 		}).send(res);
 	};
+
+	// download wo stream
+	downloadWoStream = async (req, res, next) => {
+		return new SuccessResponse({
+			message: 'download with out stream',
+			metadata: await TestService.downloadWithoutStream(),
+		}).send(res);
+	};
+
+	// download wi stream
+	// downloadWiStream = async (req, res, next) => {
+	// 	return new SuccessResponse({
+	// 		message: 'download with stream',
+	// 		metadata: await TestService.downloadWithStream(res),
+	// 	}).send(res);
+	// };
+
+	downloadWiStream = async (req, res, next) => {
+		try {
+			const { stream, filename, mimetype, size } = await TestService.downloadWithStream();
+
+			// Set headers for file download
+			res.setHeader('Content-Type', mimetype);
+			res.setHeader('Content-Length', size);
+			res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+			// Pipe the stream directly to response
+			stream.pipe(res);
+
+			// Handle stream errors
+			stream.on('error', (error) => {
+				console.error('Stream error:', error);
+				if (!res.headersSent) {
+					res.status(500).json({ error: 'File streaming failed' });
+				}
+			});
+		} catch (error) {
+			next(error);
+		}
+	};
 }
 
 module.exports = new TestController();

@@ -1,5 +1,8 @@
 'use strict';
 
+const { readFileSync, createReadStream } = require('fs');
+const path = require('path');
+
 const testModel = require('../models/test.model');
 const commentModel = require('../models/comment.model');
 const rdb = require('../dbs/init.redis.v2');
@@ -77,6 +80,30 @@ class TestService {
 	// click tracking
 	static async addClickTracking({ productId, userId }) {
 		return await addClickTrackingRepo({ productId, userId });
+	}
+
+	// download without stream
+	static async downloadWithoutStream() {
+		console.log('88888');
+		const filePath = path.join(__dirname, '../uploads/video.mp4');
+		return readFileSync(filePath);
+	}
+
+	// download with stream
+	static downloadWithStream() {
+		try {
+			const filePath = path.join(__dirname, '../uploads/video.mp4');
+			const stream = createReadStream(filePath);
+
+			return {
+				stream,
+				filename: 'video.mp4',
+				mimetype: 'video/mp4',
+				fileSize: require('fs').statSync(filePath).size,
+			};
+		} catch (error) {
+			throw new Error(`File download failed: ${error.message}`);
+		}
 	}
 }
 

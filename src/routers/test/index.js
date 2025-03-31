@@ -18,4 +18,10 @@ router.post('/history/delete', asyncHandler(TestController.bulkDeleteHistory));
 // click tracking
 router.post('/click/add', rateLimit, asyncHandler(TestController.addClickTracking));
 
+// download without stream
+router.get('/download/wo', asyncHandler(TestController.downloadWoStream));
+
+// download with stream
+router.get('/download/wi', asyncHandler(TestController.downloadWiStream));
+
 module.exports = router;

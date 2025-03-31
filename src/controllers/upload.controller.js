@@ -7,7 +7,7 @@ class Upload {
 	upLoadByUrl = async (req, res, next) => {
 		return new SuccessResponse({
 			message: 'Upload Image success!',
-			metadata: await UploadService.uploadByUrl(req.body.url)
+			metadata: await UploadService.uploadByUrl(req.body.url),
 		}).send(res);
 	};
 
@@ -16,7 +16,7 @@ class Upload {
 		if (!file) throw new BadRequestError('Invalid file');
 		return new SuccessResponse({
 			message: 'Upload Image success!',
-			metadata: await UploadService.uploadByFile(file)
+			metadata: await UploadService.uploadByFile(file),
 		}).send(res);
 	};
 
@@ -25,15 +25,25 @@ class Upload {
 		if (!files.length) throw new BadRequestError('Invalid file');
 		return new SuccessResponse({
 			message: 'Upload Image success!',
-			metadata: await UploadService.uploadByFiles({ files: files, ...res.body })
+			metadata: await UploadService.uploadByFiles({ files: files, ...res.body }),
 		}).send(res);
 	};
 
+	// upload file to s3 with cloud front
 	upLoadS3ByFiles = async (req, res, next) => {
 		const { file } = req;
 		return new SuccessResponse({
 			message: 'Upload S3 Image success!',
-			metadata: await UploadService.uploadS3ByFile(file)
+			metadata: await UploadService.uploadS3ByFile(file),
+		}).send(res);
+	};
+
+	// upload file to s3 without cloud front
+	upLoadS3ByFilesWo = async (req, res, next) => {
+		const { file } = req;
+		return new SuccessResponse({
+			message: 'Upload S3 Image success!',
+			metadata: await UploadService.uploadS3ByFileWo(file),
 		}).send(res);
 	};
 }
