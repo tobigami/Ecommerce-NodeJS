@@ -13,8 +13,8 @@ const pool = mysql.createPool({
 	database: 'dev',
 });
 
-const batchSize = 1000;
-const totalSize = 20_000;
+const batchSize = 10000;
+const totalSize = 20_000_000;
 
 let currentId = 1;
 
@@ -39,7 +39,7 @@ const insertBatch = async () => {
 			if (err) {
 				console.log('close pool error');
 			} else {
-				console.log('close pool error successfully');
+				console.log('close pool successfully');
 			}
 		});
 		return;
@@ -54,3 +54,15 @@ const insertBatch = async () => {
 };
 
 insertBatch().catch((err) => console.log(err));
+
+/**
+ * case 1: query no sort || order
+ * select * from Users LIMIT 10 OFFSET 19000000; - 5s
+ * select * from Users LIMIT 10 OFFSET 15000000; - 4s
+ * select * from Users LIMIT 10 OFFSET 10000000; - 2s
+ * select * from Users LIMIT 10 OFFSET 200000; - 0.086s
+ * select * from Users LIMIT 10 OFFSET 2000; - 0.037s
+ *
+ *
+ *
+ */
