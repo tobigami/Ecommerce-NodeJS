@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const {
-	db: { host, name }
+	db: { host, name },
 } = require('../configs/config.mongodb');
 
 const connectString = `mongodb://${host}/${name}`;
@@ -40,11 +40,6 @@ class DataBase {
 
 		return DataBase.instance;
 	}
-
-	// disconnect() {
-	//     mongoose.disconnect().then(_ => console.log('disconnect DB success PRO')).catch(err => {
-	//         console.log('disconnect fail')})
-	// }
 }
 
 const instanceMongooseDB = DataBase.getInstance();

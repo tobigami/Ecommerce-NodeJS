@@ -42,7 +42,6 @@ module.exports = {
 		);
 	},
 	async down(queryInterface, Sequelize) {
-		console.log('down................e');
 		await queryInterface.dropTable('Favourites');
 	},
 };

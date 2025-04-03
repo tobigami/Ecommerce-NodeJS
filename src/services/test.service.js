@@ -3,7 +3,6 @@
 const { readFileSync, createReadStream } = require('fs');
 const path = require('path');
 
-const testModel = require('../models/test.model');
 const commentModel = require('../models/comment.model');
 const rdb = require('../dbs/init.redis.v2');
 const { convertToObjectIdMongodb } = require('../utils');
@@ -104,6 +103,25 @@ class TestService {
 		} catch (error) {
 			throw new Error(`File download failed: ${error.message}`);
 		}
+	}
+
+	static async viewCount({ userId, videoId }) {
+		const redisIns = rdb.get();
+		const TTL = 5;
+
+		const userKey = `userId:${userId}`;
+		const videoKey = `videoId:${videoId}`;
+
+		const isOk = await redisIns.set(userKey, 'hits', 'NX', 'EX', TTL);
+		console.log('isOk', isOk);
+		if (isOk) {
+			await redisIns.incr(videoKey);
+		}
+
+		return redisIns.get(videoKey);
+		try {
+		} catch (error) {}
+		return 'view count';
 	}
 }
 

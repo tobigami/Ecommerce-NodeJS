@@ -15,9 +15,9 @@ class IpaService {
                       Format: [{"word": "example", "ipa": "ˈɛɡzæmpəl", "meaning": "a representative form"}]`;
 
 			const result = await model.generateContent(prompt);
-			const response = result.response.text(); // Lấy kết quả từ AI
+			const response = result.response.text();
 			console.log('response :>> ', response);
-			return JSON.parse(response); // Trả về JSON format
+			return JSON.parse(response);
 		} catch (error) {
 			console.error('Gemini API error:', error);
 			return { error: 'Failed to fetch words from Gemini API.' };

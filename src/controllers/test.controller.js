@@ -63,14 +63,6 @@ class TestController {
 		}).send(res);
 	};
 
-	// download wi stream
-	// downloadWiStream = async (req, res, next) => {
-	// 	return new SuccessResponse({
-	// 		message: 'download with stream',
-	// 		metadata: await TestService.downloadWithStream(res),
-	// 	}).send(res);
-	// };
-
 	downloadWiStream = async (req, res, next) => {
 		try {
 			const { stream, filename, mimetype, size } = await TestService.downloadWithStream();
@@ -93,6 +85,18 @@ class TestController {
 		} catch (error) {
 			next(error);
 		}
+	};
+
+	viewCount = async (req, res, next) => {
+		const ip1 = req.headers['x-forwarded-for'];
+		const ip2 = req.ip;
+
+		console.log('ip1', ip1);
+		console.log('ip2', ip2);
+		return new SuccessResponse({
+			message: 'View count successfully',
+			metadata: await TestService.viewCount(req.body),
+		}).send(res);
 	};
 }
 

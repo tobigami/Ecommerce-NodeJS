@@ -37,7 +37,7 @@ redisDb.init();
 const { connectMysqlDB } = require('./dbs/init.mysql'); // mysql
 connectMysqlDB();
 
-require('./dbs/connectDB'); // mongo
+require('./dbs/init.mongo'); // mongo
 
 // 3. INIT ROUTERS
 app.use('', require('./routers'));

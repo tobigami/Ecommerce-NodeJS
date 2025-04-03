@@ -24,4 +24,7 @@ router.get('/download/wo', asyncHandler(TestController.downloadWoStream));
 // download with stream
 router.get('/download/wi', asyncHandler(TestController.downloadWiStream));
 
+// view count
+router.post('/view-count', asyncHandler(TestController.viewCount));
+
 module.exports = router;
