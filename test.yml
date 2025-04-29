@@ -1,0 +1,7 @@
+tunnel: thanhdd-node-be
+credentials-file: /home/thanhdd/.cloudflared/078f87d2-356d-413d-821a-846ab6f98961.json
+
+ingress:
+  - hostname: thanhdd.io.vn
+    service: http://localhost:3055
+  - service: http_status:404

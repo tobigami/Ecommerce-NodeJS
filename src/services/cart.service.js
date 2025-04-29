@@ -54,7 +54,7 @@ class CartService {
             version
         }
     ]
-    */
+  */
 	static async updateCartItem({ userId, shop_order_ids }) {
 		const { productId, quantity, old_quantity } = shop_order_ids[0]?.item_products[0];
 		const foundProduct = await findProductById(productId);
@@ -76,8 +76,8 @@ class CartService {
 			userId,
 			product: {
 				productId,
-				quantity: quantity - old_quantity
-			}
+				quantity: quantity - old_quantity,
+			},
 		});
 	}
 
@@ -87,9 +87,9 @@ class CartService {
 		const updateSet = {
 			$pull: {
 				cart_products: {
-					productId
-				}
-			}
+					productId,
+				},
+			},
 		};
 
 		const deleteItemInCart = await cartModel.updateOne(query, updateSet);

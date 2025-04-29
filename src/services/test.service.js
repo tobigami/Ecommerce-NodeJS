@@ -21,7 +21,7 @@ class TestService {
 		});
 
 		return {
-			name: 'thanhdd',
+			name: 'https://blogs.mtdv.me/blog/posts/qaDAiHIYNY',
 			age: 20,
 		};
 	}
