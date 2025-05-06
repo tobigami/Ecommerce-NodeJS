@@ -13,7 +13,7 @@ const publish = async ({ msg }) => {
 		// 3. create exchange
 		const nameExchange = 'Thanh-Youtube';
 		await channel.assertExchange(nameExchange, 'fanout', {
-			durable: false
+			durable: false,
 		});
 
 		// 4. publish

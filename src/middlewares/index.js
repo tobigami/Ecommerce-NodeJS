@@ -7,7 +7,7 @@ const pushLogToDiscord = async (req, res, next) => {
 		Logger.sendToFormatCode({
 			title: `Method" ${req.method}`,
 			code: req.method === 'GET' ? req.query : req.body,
-			message: `${req.get('host')}${req.originalUrl}`
+			message: `${req.get('host')}${req.originalUrl}`,
 		});
 		return next();
 	} catch (error) {
@@ -16,5 +16,5 @@ const pushLogToDiscord = async (req, res, next) => {
 };
 
 module.exports = {
-	pushLogToDiscord
+	pushLogToDiscord,
 };

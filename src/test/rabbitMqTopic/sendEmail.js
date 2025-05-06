@@ -13,7 +13,7 @@ const sendEmail = async () => {
 		// 3. create exchange
 		const nameExchange = 'SendEmail';
 		await channel.assertExchange(nameExchange, 'topic', {
-			durable: true
+			durable: true,
 		});
 
 		const agrs = process.argv.slice(2);

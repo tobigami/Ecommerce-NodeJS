@@ -23,12 +23,12 @@ const discountSchema = new Schema(
 
 		discount_is_active: { type: Boolean, default: true }, // discount status enable || disable
 		discount_applies_to: { type: String, required: true, enum: ['all', 'specific'] },
-		discount_product_ids: { type: Array, default: [] }
+		discount_product_ids: { type: Array, default: [] },
 	},
 	{
 		timestamps: true,
-		collection: COLLECTION_NAME
-	}
+		collection: COLLECTION_NAME,
+	},
 );
 
 module.exports = model(DOCUMENT_NAME, discountSchema);

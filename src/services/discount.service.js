@@ -6,7 +6,7 @@ const {
 	findDiscountByShop,
 	findDiscountById,
 	updateDiscountById,
-	findAllDiscountCodesUnSelectData
+	findAllDiscountCodesUnSelectData,
 } = require('../models/repositories/discount.repo');
 const { convertToObjectIdMongodb, removeUndefinedObject, updateNestedObjectParse } = require('../utils');
 const { product } = require('../models/product.model');
@@ -40,7 +40,7 @@ class DiscountService {
 			minOrderValue,
 			isActive,
 			appliesTo,
-			productIds
+			productIds,
 		} = payload;
 
 		// check payload
@@ -76,7 +76,7 @@ class DiscountService {
 			discount_min_order_value: minOrderValue || 0,
 			discount_is_active: isActive,
 			discount_applies_to: appliesTo,
-			discount_product_ids: appliesTo === 'all' ? [] : productIds
+			discount_product_ids: appliesTo === 'all' ? [] : productIds,
 		});
 
 		return newDiscount;
@@ -91,13 +91,13 @@ class DiscountService {
 		const updateDiscount = await discountModel.findByIdAndUpdate(foundDiscount._id, {
 			// loại bỏ đi các phần từ trong mảng khớp với giá trị userId
 			$pull: {
-				discount_users_used: userId
+				discount_users_used: userId,
 			},
 			// discount_max_quantity + 1 || discount_uses_count -1
 			$inc: {
 				discount_max_quantity: 1,
-				discount_uses_count: -1
-			}
+				discount_uses_count: -1,
+			},
 		});
 
 		return updateDiscount;
@@ -122,7 +122,7 @@ class DiscountService {
 				sort: 'ctime',
 				page: +page,
 				filter: { is_published: true, product_shop: convertToObjectIdMongodb(shopId) },
-				select: ['product_name']
+				select: ['product_name'],
 			});
 		}
 
@@ -133,7 +133,7 @@ class DiscountService {
 				sort: 'ctime',
 				page: +page,
 				filter: { _id: { $in: discount_product_ids }, is_published: true },
-				select: ['product_name']
+				select: ['product_name'],
 			});
 		}
 
@@ -147,10 +147,10 @@ class DiscountService {
 			page: +page,
 			filter: {
 				discount_shop_id: convertToObjectIdMongodb(shopId),
-				discount_is_active: true
+				discount_is_active: true,
 			},
 			unSelect: ['__v', 'discount_shop_id'],
-			model: discountModel
+			model: discountModel,
 		});
 
 		return discounts;
@@ -178,7 +178,7 @@ class DiscountService {
 	static async getDiscountAmount({ products, codeId, shopId, userId }) {
 		const foundDiscount = await findDiscountByShop({
 			code: codeId,
-			shopId: shopId
+			shopId: shopId,
 		});
 
 		if (!foundDiscount) throw new NotFoundError(`Discount code doesn't exists`);
@@ -193,7 +193,7 @@ class DiscountService {
 			discount_users_used,
 			discount_type,
 			discount_value,
-			discount_applies_to
+			discount_applies_to,
 		} = foundDiscount;
 
 		if (!discount_is_active) throw new NotFoundError(`Discount code expired`);
@@ -227,7 +227,7 @@ class DiscountService {
 			return {
 				totalOrder,
 				discount: amount,
-				totalPrice: totalOrder - amount
+				totalPrice: totalOrder - amount,
 			};
 		}
 	}
@@ -236,7 +236,7 @@ class DiscountService {
 	static async deleteDiscountCode({ codeId, shopId }) {
 		const deleted = await discountModel.findByIdAndDelete({
 			discount_code: codeId,
-			discount_shop_id: convertToObjectIdMongodb(shopId)
+			discount_shop_id: convertToObjectIdMongodb(shopId),
 		});
 
 		return deleted;
@@ -251,7 +251,7 @@ class DiscountService {
 
 		const newDiscount = await updateDiscountById({
 			discountId,
-			bodyUpdate: updateNestedObjectParse(payload)
+			bodyUpdate: updateNestedObjectParse(payload),
 		});
 
 		return newDiscount;

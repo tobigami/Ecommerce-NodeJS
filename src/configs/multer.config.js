@@ -11,11 +11,11 @@ const uploadDisk = multer({
 		},
 		filename: (req, file, cb) => {
 			cb(null, Date.now() + '-' + file.originalname);
-		}
-	})
+		},
+	}),
 });
 
 module.exports = {
 	uploadMemory,
-	uploadDisk
+	uploadDisk,
 };

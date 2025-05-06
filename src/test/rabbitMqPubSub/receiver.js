@@ -13,12 +13,12 @@ const receiver = async () => {
 		// 3. create exchange
 		const nameExchange = 'Thanh-Youtube';
 		await channel.assertExchange(nameExchange, 'fanout', {
-			durable: false
+			durable: false,
 		});
 
 		// 4. create queue
 		const { queue } = await channel.assertQueue('', {
-			exclusive: true
+			exclusive: true,
 		});
 		console.log('queue :>> ', queue);
 
@@ -31,8 +31,8 @@ const receiver = async () => {
 				console.log('message:', message.content.toString());
 			},
 			{
-				noAck: true
-			}
+				noAck: true,
+			},
 		);
 	} catch (error) {
 		console.log(error);

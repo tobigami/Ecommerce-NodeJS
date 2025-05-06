@@ -8,12 +8,12 @@ const runProducer = async () => {
 		const channel = await connection.createChannel();
 		const queueName = 'test-topic';
 		await channel.assertQueue(queueName, {
-			durable: true
+			durable: true,
 		});
 
 		// send message to consumer
 		channel.sendToQueue(queueName, Buffer.from(message), {
-			persistent: true
+			persistent: true,
 			//  TTL  time  to live
 		});
 		console.log('message send:', message);

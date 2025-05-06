@@ -48,5 +48,5 @@ module.exports = {
 	AuthFailureError,
 	NotFoundError,
 	ForbiddenError,
-	RedisError
+	RedisError,
 };

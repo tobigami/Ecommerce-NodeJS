@@ -76,8 +76,8 @@ class CartService {
 			userId,
 			product: {
 				productId,
-				quantity: quantity - old_quantity
-			}
+				quantity: quantity - old_quantity,
+			},
 		});
 	}
 
@@ -87,9 +87,9 @@ class CartService {
 		const updateSet = {
 			$pull: {
 				cart_products: {
-					productId
-				}
-			}
+					productId,
+				},
+			},
 		};
 
 		const deleteItemInCart = await cartModel.updateOne(query, updateSet);

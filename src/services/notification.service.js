@@ -19,7 +19,7 @@ class NotificationService {
 			notify_senderID: sender,
 			notify_receiverId: receiver,
 			notify_content: content,
-			notify_options: options
+			notify_options: options,
 		});
 
 		return newNotify;
@@ -42,18 +42,18 @@ class NotificationService {
 					notify_content: {
 						$concat: [
 							{
-								$substr: ['$notify_options.shop_name', 0, -1]
+								$substr: ['$notify_options.shop_name', 0, -1],
 							},
 							' vua moi them 1 sp moi',
 							{
-								$substr: ['$notify_options.product_name', 0, -1]
-							}
-						]
+								$substr: ['$notify_options.product_name', 0, -1],
+							},
+						],
 					},
 					notify_options: 1,
-					createAt: 1
-				}
-			}
+					createAt: 1,
+				},
+			},
 		]);
 	}
 }

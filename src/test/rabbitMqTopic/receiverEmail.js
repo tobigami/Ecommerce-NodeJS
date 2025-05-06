@@ -13,12 +13,12 @@ const receiverEmail = async () => {
 
 	const nameExchange = 'SendEmail';
 	await channel.assertExchange(nameExchange, 'topic', {
-		durable: true
+		durable: true,
 	});
 
 	// 4. create queue
 	const { queue } = await channel.assertQueue('', {
-		exclusive: true
+		exclusive: true,
 	});
 
 	// 5. bindding

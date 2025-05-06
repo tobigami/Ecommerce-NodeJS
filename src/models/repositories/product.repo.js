@@ -24,7 +24,7 @@ const searchProductByUser = async ({ keySearch }) => {
 const publishProductByShop = async ({ shop_id, product_id }) => {
 	const foundShop = await product.findOne({
 		product_shop: new Types.ObjectId(shop_id),
-		_id: new Types.ObjectId(product_id)
+		_id: new Types.ObjectId(product_id),
 	});
 
 	if (!foundShop) return null;
@@ -38,7 +38,7 @@ const publishProductByShop = async ({ shop_id, product_id }) => {
 const unPublishProductByShop = async ({ shop_id, product_id }) => {
 	const foundShop = await product.findOne({
 		product_shop: new Types.ObjectId(shop_id),
-		_id: new Types.ObjectId(product_id)
+		_id: new Types.ObjectId(product_id),
 	});
 
 	if (!foundShop) return null;
@@ -88,10 +88,10 @@ const checkListProduct = async (products) => {
 				return {
 					price: foundProduct.product_price,
 					productId: foundProduct._id,
-					quantity: product.quantity
+					quantity: product.quantity,
 				};
 			}
-		})
+		}),
 	);
 };
 
@@ -105,5 +105,5 @@ module.exports = {
 	findProduct,
 	updateProductById,
 	findProductById,
-	checkListProduct
+	checkListProduct,
 };

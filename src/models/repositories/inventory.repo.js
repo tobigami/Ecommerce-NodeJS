@@ -5,10 +5,10 @@ const insertInventory = async ({ productId, shopId, stock, location = 'unKnow' }
 		inven_productId: productId,
 		inven_location: location,
 		inven_shopId: shopId,
-		inven_stock: stock
+		inven_stock: stock,
 	});
 };
 
 module.exports = {
-	insertInventory
+	insertInventory,
 };

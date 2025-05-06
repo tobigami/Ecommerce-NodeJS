@@ -10,8 +10,8 @@ class LogService {
 				GatewayIntentBits.DirectMessages,
 				GatewayIntentBits.Guilds,
 				GatewayIntentBits.GuildMessages,
-				GatewayIntentBits.MessageContent
-			]
+				GatewayIntentBits.MessageContent,
+			],
 		});
 
 		this.channelId = CHANNEL_ID_DISCORD;
@@ -31,9 +31,9 @@ class LogService {
 				{
 					color: parseInt('00ff00', 16),
 					title,
-					description: '```json\n' + JSON.stringify(code, null, 2) + '\n```'
-				}
-			]
+					description: '```json\n' + JSON.stringify(code, null, 2) + '\n```',
+				},
+			],
 		};
 
 		this.sendToMessage(codeMessage);

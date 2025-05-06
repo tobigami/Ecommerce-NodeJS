@@ -55,7 +55,7 @@ class CheckoutService {
 			totalPrice: 0, // tong tien hang
 			feeShip: 0, // phi van chuyen,
 			totalDiscount: 0, // tong tien discount giam gia
-			totalCheckout: 0 // tong tien phai thanh toan
+			totalCheckout: 0, // tong tien phai thanh toan
 		};
 
 		const shopOrderIdsNew = []; // trả về thông tin giá sản phẩm từ DB
@@ -82,7 +82,7 @@ class CheckoutService {
 				shopDiscounts,
 				priceRaw: checkoutPrice,
 				priceApplyDiscount: checkoutPrice,
-				itemProducts: checkProducts
+				itemProducts: checkProducts,
 			};
 
 			// neu shopDiscounts ton tai > 0, check xem co hop le hay khong
@@ -93,7 +93,7 @@ class CheckoutService {
 					products: checkProducts,
 					codeId: shopDiscounts[0].codeId,
 					userId,
-					shopId
+					shopId,
 				});
 
 				checkoutOrder.totalDiscount += discount;
@@ -111,7 +111,7 @@ class CheckoutService {
 		return {
 			shopOrderIds,
 			shopOrderIdsNew,
-			checkoutOrder
+			checkoutOrder,
 		};
 	}
 

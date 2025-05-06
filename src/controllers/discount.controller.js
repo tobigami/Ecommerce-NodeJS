@@ -5,24 +5,24 @@ const DiscountService = require('../services/discount.service');
 
 class DiscountController {
 	// create discount code by shop
-	createDiscountCode = async (req, res, next) => {
+	createDiscountCode = async (req, res) => {
 		return new SuccessResponse({
 			message: `Create new discount success!`,
 			metadata: await DiscountService.createDiscountCode({
 				...req.body,
-				shopId: req.user.userId
-			})
+				shopId: req.user.userId,
+			}),
 		}).send(res);
 	};
 
 	// get list discount by shop
-	getAllDiscountCodesByShop = async (req, res, next) => {
+	getAllDiscountCodesByShop = async (req, res) => {
 		return new SuccessResponse({
 			message: 'Successful Code Found',
 			metadata: await DiscountService.getAllDiscountCodeByShop({
 				...req.query,
-				shopId: req.user.userId
-			})
+				shopId: req.user.userId,
+			}),
 		}).send(res);
 	};
 
@@ -31,8 +31,8 @@ class DiscountController {
 		return new SuccessResponse({
 			message: `Get list product available with discount success`,
 			metadata: await DiscountService.getProductsByDiscountCode({
-				...req.query
-			})
+				...req.query,
+			}),
 		}).send(res);
 	};
 
@@ -41,8 +41,8 @@ class DiscountController {
 		return new SuccessResponse({
 			message: `Get discount amount success`,
 			metadata: await DiscountService.getDiscountAmount({
-				...req.body
-			})
+				...req.body,
+			}),
 		}).send(res);
 	};
 
@@ -52,8 +52,8 @@ class DiscountController {
 			message: `Update discount success`,
 			metadata: await DiscountService.updateDiscount({
 				payload: req.body,
-				discountId: req.params.discountId
-			})
+				discountId: req.params.discountId,
+			}),
 		}).send(res);
 	};
 }

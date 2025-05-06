@@ -14,8 +14,8 @@ module.exports = {
 			min: 1,
 			max: 5,
 			acquire: 30000,
-			idle: 10000
-		}
+			idle: 10000,
+		},
 	},
 	production: {
 		username: MYSQL_USER,
@@ -28,7 +28,7 @@ module.exports = {
 			min: 1,
 			max: 5,
 			acquire: 30000,
-			idle: 10000
-		}
-	}
+			idle: 10000,
+		},
+	},
 };

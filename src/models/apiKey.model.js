@@ -10,22 +10,22 @@ const apiKeySchema = new Schema(
 		key: {
 			type: String,
 			required: true,
-			unique: true
+			unique: true,
 		},
 		status: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		permissions: {
 			type: [String],
 			enum: ['0000', '1111', '2222'],
-			required: true
-		}
+			required: true,
+		},
 	},
 	{
 		timestamps: true,
-		collection: COLLECTION_NAME
-	}
+		collection: COLLECTION_NAME,
+	},
 );
 
 module.exports = model(DOCUMENT_NAME, apiKeySchema);

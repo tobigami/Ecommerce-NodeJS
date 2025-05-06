@@ -16,7 +16,7 @@ class CommentService {
 			comment_productId: productId,
 			comment_userId: userId,
 			comment_parentId: parentId,
-			comment_content: content
+			comment_content: content,
 		});
 
 		let rightValue;
@@ -30,21 +30,21 @@ class CommentService {
 			await Comment.updateMany(
 				{
 					comment_productId: convertToObjectIdMongodb(productId),
-					comment_right: { $gte: rightValue }
+					comment_right: { $gte: rightValue },
 				},
 				{
-					$inc: { comment_right: 2 }
-				}
+					$inc: { comment_right: 2 },
+				},
 			);
 
 			await Comment.updateMany(
 				{
 					comment_productId: convertToObjectIdMongodb(productId),
-					comment_left: { $gt: rightValue }
+					comment_left: { $gt: rightValue },
 				},
 				{
-					$inc: { comment_left: 2 }
-				}
+					$inc: { comment_left: 2 },
+				},
 			);
 
 			rightValue = parentComment.comment_right;
@@ -52,12 +52,12 @@ class CommentService {
 			// add comment
 			const maxRightValue = await Comment.findOne(
 				{
-					comment_productId: convertToObjectIdMongodb(productId)
+					comment_productId: convertToObjectIdMongodb(productId),
 				},
 				'comment_right',
 				{
-					sort: { comment_right: -1 }
-				}
+					sort: { comment_right: -1 },
+				},
 			);
 
 			if (maxRightValue) {
@@ -77,7 +77,7 @@ class CommentService {
 		productId,
 		parentId = null,
 		limit = 2,
-		skip = 0 // skip
+		skip = 0, // skip
 	}) {
 		if (parentId) {
 			const foundComment = await Comment.findById(convertToObjectIdMongodb(parentId));
@@ -86,16 +86,16 @@ class CommentService {
 			const comments = await Comment.find({
 				comment_productId: productId,
 				comment_left: { $gt: foundComment.comment_left },
-				comment_right: { $lt: foundComment.comment_right }
+				comment_right: { $lt: foundComment.comment_right },
 			})
 				.select({
 					comment_left: 1,
 					comment_right: 1,
 					comment_content: 1,
-					comment_parentId: 1
+					comment_parentId: 1,
 				})
 				.sort({
-					comment_left: 1
+					comment_left: 1,
 				})
 				.limit(limit)
 				.skip(skip);
@@ -105,16 +105,16 @@ class CommentService {
 
 		const comments = await Comment.find({
 			comment_productId: productId,
-			comment_parentId: parentId
+			comment_parentId: parentId,
 		})
 			.select({
 				comment_left: 1,
 				comment_right: 1,
 				comment_content: 1,
-				comment_parentId: 1
+				comment_parentId: 1,
 			})
 			.sort({
-				comment_left: 1
+				comment_left: 1,
 			})
 			.limit(limit)
 			.skip(skip);
@@ -138,28 +138,28 @@ class CommentService {
 		// 3. Xoa cac comment con va commentId
 		await Comment.deleteMany({
 			comment_productId: convertToObjectIdMongodb(productId),
-			comment_left: { $gte: leftValue, $lte: rightValue }
+			comment_left: { $gte: leftValue, $lte: rightValue },
 		});
 
 		// 4. Cap nhat lai gia tri left right cho cac comment con lai
 		await Comment.updateMany(
 			{
 				comment_productId: convertToObjectIdMongodb(productId),
-				comment_right: { $gt: rightValue }
+				comment_right: { $gt: rightValue },
 			},
 			{
-				$inc: { comment_right: -width }
-			}
+				$inc: { comment_right: -width },
+			},
 		);
 
 		await Comment.updateMany(
 			{
 				comment_productId: convertToObjectIdMongodb(productId),
-				comment_left: { $gt: rightValue }
+				comment_left: { $gt: rightValue },
 			},
 			{
-				$inc: { comment_left: -width }
-			}
+				$inc: { comment_left: -width },
+			},
 		);
 		return true;
 	}

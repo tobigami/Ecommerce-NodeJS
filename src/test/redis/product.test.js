@@ -4,7 +4,7 @@ class ProductServiceTest {
 	purchaseProduct(productId, quantity) {
 		const order = {
 			productId,
-			quantity
+			quantity,
 		};
 		RedisPubsubService.publish('purchase_events', JSON.stringify(order));
 	}

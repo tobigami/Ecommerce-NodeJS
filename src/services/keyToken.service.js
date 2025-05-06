@@ -2,7 +2,7 @@
 
 const keyTokenModel = require('../models/keyToken.model');
 const {
-	Types: { ObjectId }
+	Types: { ObjectId },
 } = require('mongoose');
 
 class KeyTokenService {
@@ -11,11 +11,11 @@ class KeyTokenService {
 			const filter = { user: userId },
 				update = {
 					refreshTokenUsed: [],
-					refreshToken
+					refreshToken,
 				},
 				options = {
 					upsert: true, //Neu khong tim duoc se insert
-					new: true // return ve document update thay vi document original
+					new: true, // return ve document update thay vi document original
 				};
 
 			return await keyTokenModel.findOneAndUpdate(filter, update, options);

@@ -2,12 +2,12 @@
 
 const StatusCode = {
 	OK: 200,
-	CREATE: 201
+	CREATE: 201,
 };
 
 const ReasonStatusCode = {
 	OK: 'Success',
-	CREATE: 'Created!'
+	CREATE: 'Created!',
 };
 
 class SuccessResponse {
@@ -34,7 +34,7 @@ class CREATED extends SuccessResponse {
 		statusCode = StatusCode.CREATE,
 		reasonStatusCode = ReasonStatusCode.CREATE,
 		metadata = {},
-		option = {}
+		option = {},
 	}) {
 		super({ message, statusCode, reasonStatusCode, metadata });
 		this.option = option;
@@ -44,5 +44,5 @@ class CREATED extends SuccessResponse {
 module.exports = {
 	OK,
 	CREATED,
-	SuccessResponse
+	SuccessResponse,
 };

@@ -10,7 +10,7 @@ const cartSchema = new Schema(
 			type: String,
 			required: true,
 			enum: ['active', 'complete', 'failed', 'pending'],
-			default: 'active'
+			default: 'active',
 		},
 		cart_products: { type: Array, required: true, default: [] },
 		/**
@@ -23,12 +23,12 @@ const cartSchema = new Schema(
         }]
         */
 		cart_count_product: { type: Number, default: 0 },
-		cart_userId: { type: Number, require: true }
+		cart_userId: { type: Number, require: true },
 	},
 	{
 		collection: COLLECTION_NAME,
-		timestamps: true
-	}
+		timestamps: true,
+	},
 );
 
 module.exports = model(DOCUMENT_NAME, cartSchema);

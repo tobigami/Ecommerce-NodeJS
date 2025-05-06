@@ -11,7 +11,7 @@ const inventorySchema = new Schema(
 		inven_shopId: { type: Schema.Types.ObjectId, ref: 'Shop' },
 		inven_location: { type: String, default: 'unKnow' },
 		inven_stock: { type: Number, required: true },
-		inven_reservations: { type: Array, default: [] }
+		inven_reservations: { type: Array, default: [] },
 		/*
       cartId
       stock
@@ -20,8 +20,8 @@ const inventorySchema = new Schema(
 	},
 	{
 		timestamps: true,
-		collection: COLLECTION_NAME
-	}
+		collection: COLLECTION_NAME,
+	},
 );
 
 module.exports = model(DOCUMENT_NAME, inventorySchema);

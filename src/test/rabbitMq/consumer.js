@@ -7,7 +7,7 @@ const runConsumer = async () => {
 		const channel = await connection.createChannel();
 		const queueName = 'test-topic';
 		await channel.assertQueue(queueName, {
-			durable: true
+			durable: true,
 		});
 
 		console.log('111111');
@@ -18,8 +18,8 @@ const runConsumer = async () => {
 				console.log('Receiver message:', message.content.toString());
 			},
 			{
-				noAck: true // khong gui lai cac tin nhan da duoc xu ly roi
-			}
+				noAck: true, // khong gui lai cac tin nhan da duoc xu ly roi
+			},
 		);
 	} catch (error) {
 		console.log(error);

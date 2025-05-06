@@ -17,7 +17,7 @@ const productSchema = new Schema(
 		product_type: {
 			type: String,
 			required: true,
-			enum: ['Clothing', 'Electronic', 'Furniture']
+			enum: ['Clothing', 'Electronic', 'Furniture'],
 		},
 		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
 		product_attributes: { type: Schema.Types.Mixed, required: true },
@@ -27,20 +27,20 @@ const productSchema = new Schema(
 			default: 4.5,
 			min: [1, 'Ratting must above 1.0'],
 			max: [5, 'Ratting must under 5.0'],
-			set: (value) => Math.round(value * 10) / 10
+			set: (value) => Math.round(value * 10) / 10,
 		},
 		is_draft: { type: Boolean, default: true, index: true, select: false },
 		is_published: {
 			type: Boolean,
 			default: false,
 			index: true,
-			select: false
-		}
+			select: false,
+		},
 	},
 	{
 		timestamps: true,
-		collection: COLLECTION_NAME
-	}
+		collection: COLLECTION_NAME,
+	},
 );
 
 // webhook middleware before .save or .create product schema
@@ -58,12 +58,12 @@ const clothingSchema = new Schema(
 		brand: { type: String, required: true },
 		size: String,
 		material: String,
-		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' }
+		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
 	},
 	{
 		timestamps: true,
-		collection: 'clothes'
-	}
+		collection: 'clothes',
+	},
 );
 
 // define product type = electronic
@@ -72,12 +72,12 @@ const electronicSchema = new Schema(
 		manufacture: { type: String, required: true },
 		model: String,
 		color: String,
-		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' }
+		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
 	},
 	{
 		timestamps: true,
-		collection: 'electronic'
-	}
+		collection: 'electronic',
+	},
 );
 
 // define product type = furniture
@@ -86,17 +86,17 @@ const furnitureSchema = new Schema(
 		manufacture: { type: String, required: true },
 		model: String,
 		color: String,
-		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' }
+		product_shop: { type: Schema.Types.ObjectId, ref: 'Shop' },
 	},
 	{
 		timestamps: true,
-		collection: 'furniture'
-	}
+		collection: 'furniture',
+	},
 );
 
 module.exports = {
 	product: model(DOCUMENT_NAME, productSchema),
 	clothing: model('Clothing', clothingSchema),
 	electronic: model('Electronic', electronicSchema),
-	furniture: model('Furniture', furnitureSchema)
+	furniture: model('Furniture', furnitureSchema),
 };

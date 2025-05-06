@@ -1,4 +1,4 @@
-const { createReadStream, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { createServer } = require('http');
 const path = require('path');
 

@@ -51,5 +51,5 @@ module.exports = {
 	unGetSelectData,
 	removeUndefinedObject,
 	updateNestedObjectParse,
-	convertToObjectIdMongodb
+	convertToObjectIdMongodb,
 };

@@ -13,12 +13,12 @@ const commentSchema = new Schema(
 		comment_parentId: { type: Schema.Types.ObjectId, ref: DOCUMENT_NAME },
 		comment_left: { type: Number, required: true, default: 1 },
 		comment_right: { type: Number, required: true, default: 1 },
-		comment_isDelete: { type: Boolean, default: false }
+		comment_isDelete: { type: Boolean, default: false },
 	},
 	{
 		collection: COLLECTION_NAME,
-		timestamps: true
-	}
+		timestamps: true,
+	},
 );
 
 module.exports = model(DOCUMENT_NAME, commentSchema);

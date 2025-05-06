@@ -13,7 +13,7 @@ const RoleShop = {
 	SHOP: 'SHOP',
 	WRITER: 'WRITER',
 	EDITOR: 'EDITOR',
-	ADMIN: 'ADMIN'
+	ADMIN: 'ADMIN',
 };
 
 class AccessService {
@@ -39,16 +39,16 @@ class AccessService {
 		// update token
 		await keyStore.updateOne({
 			$set: {
-				refreshToken: tokens.refreshToken
+				refreshToken: tokens.refreshToken,
 			},
 			$addToSet: {
-				refreshTokenUsed: refreshToken
-			}
+				refreshTokenUsed: refreshToken,
+			},
 		});
 
 		return {
 			user,
-			tokens
+			tokens,
 		};
 	};
 
@@ -78,16 +78,16 @@ class AccessService {
 
 		await KeyTokenService.createKeyToken({
 			refreshToken: tokens.refreshToken,
-			userId: foundShop._id
+			userId: foundShop._id,
 		});
 
 		// 4. Return data login
 		return {
 			metadata: getInfoData({
 				fields: ['_id', 'name', 'email'],
-				object: foundShop
+				object: foundShop,
 			}),
-			tokens
+			tokens,
 		};
 	};
 
@@ -103,13 +103,13 @@ class AccessService {
 			name,
 			email,
 			password: passwordHash,
-			roles: [RoleShop.SHOP]
+			roles: [RoleShop.SHOP],
 		});
 
 		if (newShop) {
 			// Save collection keyStore
 			await createKeyToken({
-				userId: newShop._id
+				userId: newShop._id,
 			});
 
 			// create token pair
@@ -120,16 +120,16 @@ class AccessService {
 				metadata: {
 					shop: getInfoData({
 						fields: ['_id', 'name', 'email'],
-						object: newShop
+						object: newShop,
 					}),
-					tokens
-				}
+					tokens,
+				},
 			};
 		}
 
 		return {
 			code: 200,
-			metadata: null
+			metadata: null,
 		};
 	};
 }

@@ -7,8 +7,8 @@ const createUserCart = async ({ userId, product }) => {
 	const query = { cart_userId: userId, cart_state: 'active' },
 		updateOrInsert = {
 			$addToSet: {
-				cart_products: product
-			}
+				cart_products: product,
+			},
 		},
 		options = { upsert: true, new: true };
 
@@ -20,12 +20,12 @@ const updateUserCartQuantity = async ({ userId, product }) => {
 	const query = {
 			cart_userId: userId,
 			cart_state: 'active',
-			'cart_products.productId': productId
+			'cart_products.productId': productId,
 		},
 		updateSet = {
 			$inc: {
-				'cart_products.$.quantity': quantity
-			}
+				'cart_products.$.quantity': quantity,
+			},
 		},
 		options = { new: true, upSert: true };
 
@@ -39,10 +39,10 @@ const findCartById = async (cartId) => {
 const pushProductToCart = async ({ userId, product }) => {
 	const query = {
 			cart_userId: userId,
-			cart_state: 'active'
+			cart_state: 'active',
 		},
 		update = {
-			$push: { cart_products: product }
+			$push: { cart_products: product },
 		},
 		options = { new: true };
 

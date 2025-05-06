@@ -8,19 +8,19 @@ const HEADER = {
 	API_KEY: 'x-api-key',
 	CLIENT_ID: 'x-client-id',
 	AUTHORIZATION: 'authorization',
-	REFRESHTOKEN: 'refreshtoken'
+	REFRESHTOKEN: 'refreshtoken',
 };
 
 const createTokenPair = async (payload) => {
 	try {
 		const accessToken = await JWT.sign(payload, AUTH_PRIVATE, {
 			expiresIn: '2 days',
-			algorithm: 'RS256'
+			algorithm: 'RS256',
 		});
 
 		const refreshToken = await JWT.sign(payload, AUTH_PRIVATE, {
 			expiresIn: '7 days',
-			algorithm: 'RS256'
+			algorithm: 'RS256',
 		});
 
 		return { accessToken, refreshToken };
@@ -81,5 +81,5 @@ const verifyJWT = async (token, keySecret) => {
 module.exports = {
 	createTokenPair,
 	authentication,
-	verifyJWT
+	verifyJWT,
 };

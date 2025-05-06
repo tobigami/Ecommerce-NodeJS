@@ -11,13 +11,13 @@ const producer = async () => {
 		const queueName = 'order-message';
 
 		await channel.assertQueue(queueName, {
-			durable: true
+			durable: true,
 		});
 
 		for (let i = 0; i < 10; i++) {
 			const msg = `message ${i}`;
 			channel.sendToQueue(queueName, Buffer.from(msg), {
-				persistent: true
+				persistent: true,
 			});
 		}
 

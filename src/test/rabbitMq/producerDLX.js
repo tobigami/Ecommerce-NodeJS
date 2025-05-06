@@ -19,14 +19,14 @@ const runProducer = async () => {
 
 		// 1. create Exchange
 		await channel.assertExchange(notificationExchange, 'direct', {
-			durable: true
+			durable: true,
 		});
 
 		// 2. create queue
 		const queueResult = await channel.assertQueue(notifyQueue, {
 			exclusive: false, //  cho phep cac ket noi truy cap vao cung 1 luc hang doi
 			deadLetterExchange: notificationExchangeEX,
-			deadLetterRoutingKey: notificationRoutingKeyDLX
+			deadLetterRoutingKey: notificationRoutingKeyDLX,
 		});
 
 		// 3. bind queue
@@ -36,7 +36,7 @@ const runProducer = async () => {
 		const mgs = 'a new product created';
 		console.log(`producer msg:`, mgs);
 		await channel.sendToQueue(queueResult.queue, Buffer.from(mgs), {
-			expiration: 10 * 1000
+			expiration: 10 * 1000,
 		});
 
 		// 5. exit

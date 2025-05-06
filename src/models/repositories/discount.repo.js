@@ -6,7 +6,7 @@ const findDiscountByShop = async ({ code, shopId }) => {
 	return discountModel
 		.findOne({
 			discount_code: code,
-			discount_shop_id: convertToObjectIdMongodb(shopId)
+			discount_shop_id: convertToObjectIdMongodb(shopId),
 		})
 		.lean();
 };
@@ -17,7 +17,7 @@ const findAllDiscountCodesUnSelectData = async ({
 	sort = 'ctime',
 	filter,
 	unSelect,
-	model = discountModel
+	model = discountModel,
 }) => {
 	const skip = (page - 1) * limit;
 	const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
@@ -38,7 +38,7 @@ const findAllDiscountCodesSelectData = async ({
 	sort = 'ctime',
 	filter,
 	select,
-	model = discountModel
+	model = discountModel,
 }) => {
 	const skip = (page - 1) * limit;
 	const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
@@ -66,5 +66,5 @@ module.exports = {
 	findAllDiscountCodesUnSelectData,
 	findAllDiscountCodesSelectData,
 	findDiscountById,
-	updateDiscountById
+	updateDiscountById,
 };

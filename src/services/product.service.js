@@ -10,7 +10,7 @@ const {
 	searchProductByUser,
 	findAllProducts,
 	findProduct,
-	updateProductById
+	updateProductById,
 } = require('../models/repositories/product.repo');
 const { removeUndefinedObject, updateNestedObjectParse } = require('../utils');
 const { insertInventory } = require('../models/repositories/inventory.repo');
@@ -73,7 +73,7 @@ class ProductFactory {
 			sort,
 			page,
 			filter,
-			select: ['product_name', 'product_price', 'product_thumb', 'product_shop']
+			select: ['product_name', 'product_price', 'product_thumb', 'product_shop'],
 		});
 	}
 
@@ -92,7 +92,7 @@ class Product {
 		product_quantity,
 		product_type,
 		product_shop,
-		product_attributes
+		product_attributes,
 	}) {
 		this.product_name = product_name;
 		this.product_thumb = product_thumb;
@@ -112,7 +112,7 @@ class Product {
 			await insertInventory({
 				productId: newProduct._id,
 				shopId: this.product_shop,
-				stock: this.product_quantity
+				stock: this.product_quantity,
 			});
 
 			// push to notify system
@@ -122,8 +122,8 @@ class Product {
 				sender: this.product_shop,
 				options: {
 					product_name: this.product_name,
-					shop_name: this.product_shop
-				}
+					shop_name: this.product_shop,
+				},
 			})
 				.then((rs) => console.log(rs))
 				.catch((err) => console.log(err));
@@ -143,7 +143,7 @@ class Clothing extends Product {
 	async createProduct() {
 		const newClothing = await clothing.create({
 			...this.product_attributes,
-			product_shop: this.product_shop
+			product_shop: this.product_shop,
 		});
 		if (!newClothing) throw new BadRequestError('Create new clothing error');
 
@@ -165,7 +165,7 @@ class Clothing extends Product {
 			await updateProductById({
 				productId,
 				bodyUpdate: updateNestedObjectParse(objectParams.product_attributes),
-				model: clothing
+				model: clothing,
 			});
 		}
 
@@ -180,7 +180,7 @@ class Electronic extends Product {
 	async createProduct() {
 		const newElectronic = await electronic.create({
 			...this.product_attributes,
-			product_shop: this.product_shop
+			product_shop: this.product_shop,
 		});
 		if (!newElectronic) throw new BadRequestError('Create new electronic error');
 
@@ -195,7 +195,7 @@ class Furniture extends Product {
 	async createProduct() {
 		const newFurniture = await furniture.create({
 			...this.product_attributes,
-			product_shop: this.product_shop
+			product_shop: this.product_shop,
 		});
 		if (!newFurniture) throw new BadRequestError('Create new electronic error');
 

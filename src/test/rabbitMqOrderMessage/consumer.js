@@ -10,7 +10,7 @@ const consumer = async () => {
 		const queueName = 'order-message';
 
 		await channel.assertQueue(queueName, {
-			durable: true
+			durable: true,
 		});
 
 		// set prefetch to 1 ensure only one ack at a time

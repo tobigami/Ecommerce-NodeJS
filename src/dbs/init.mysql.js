@@ -8,7 +8,7 @@ const sequelize = new Sequelize(development.database, development.username, deve
 	port: development.port,
 	dialect: development.dialect,
 	pool: development.pool,
-	logging: development.logging
+	logging: development.logging,
 });
 
 const connectMysqlDB = async () => {

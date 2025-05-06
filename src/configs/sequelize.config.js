@@ -21,7 +21,7 @@ const prod = {
 };
 
 module.exports = {
-	development: dev,
+	dev: dev,
 	test: test,
 	production: prod,
 };

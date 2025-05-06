@@ -4,13 +4,13 @@
 		"node": true,
 		"commonjs": true,
 		"jquery": true,
-		"es6": true
+		"es6": true,
 	},
 	"extends": ["eslint:recommended", "prettier", "eslint-config-prettier"],
 	"plugins": ["prettier"],
 	"parser": "@babel/eslint-parser",
 	"parserOptions": {
-		"requireConfigFile": false
+		"requireConfigFile": false,
 	},
 	"rules": {
 		"no-console": 2,
@@ -24,7 +24,7 @@
 				"singleQuote": true,
 				"jsxSingleQuote": true,
 				"quoteProps": "as-needed",
-				"trailingComma": "none",
+				"trailingComma": "all",
 				"singleAttributePerLine": false,
 				"htmlWhitespaceSensitivity": "css",
 				"vueIndentScriptAndStyle": false,
@@ -34,8 +34,9 @@
 				"requirePragma": false,
 				"tabWidth": 2,
 				"useTabs": true,
-				"embeddedLanguageFormatting": "auto"
-			}
-		]
-	}
+				"embeddedLanguageFormatting": "auto",
+				"endOfLine": "auto",
+			},
+		],
+	},
 }
