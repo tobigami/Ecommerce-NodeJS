@@ -1,6 +1,6 @@
 require(`dotenv`).config();
 
-const dev = {
+const development = {
 	username: process.env.MYSQL_USERNAME || 'root',
 	password: process.env.MYSQL_PASSWORD || '',
 	database: process.env.MYSQL_DB_NAME || '',
@@ -11,17 +11,17 @@ const dev = {
 };
 
 const test = {
-	...dev,
+	...development,
 	database: process.env.MYSQL_DATABASE_TEST || 'your_database_test',
 };
 
 const prod = {
-	...dev,
+	...development,
 	database: process.env.MYSQL_DATABASE_PROD || 'your_database_prod',
 };
 
 module.exports = {
-	dev: dev,
+	development: development,
 	test: test,
 	production: prod,
 };

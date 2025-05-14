@@ -72,6 +72,21 @@ CLOUD_FRONT_PRIVATE_KEY= ''
   docker run --name rabbitMQ -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
   ```
 
+- Mysql
+  ```shell
+  #step-1: install mysql container
+  docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=12345 -d mysql:latest --max_connections=1000
+
+  #step-2: create dev DB
+  docker exec -it mysql bash
+  mysql -uroot -p12345
+  create database dev;
+
+
+  ```
+
+
+
 ## 3. Gen key
 
 - private key

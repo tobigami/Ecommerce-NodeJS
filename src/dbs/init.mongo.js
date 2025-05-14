@@ -5,10 +5,10 @@ const {
 	db: { host, name },
 } = require('../configs/config.mongodb');
 
-const connectString = `mongodb://${host}/${name}`;
+// const connectString = `mongodb://${host}/${name}`;
 
 // for mongodb atlas
-// const connectString = `mongodb+srv://root:123@cluster0.dikmvlw.mongodb.net/${name}?retryWrites=true&w=majority`;
+const connectString = `mongodb+srv://root:123@cluster0.dikmvlw.mongodb.net/${name}?retryWrites=true&w=majority`;
 
 const { countConnect } = require('../helper/check.connect');
 class DataBase {
@@ -19,8 +19,8 @@ class DataBase {
 	// connect
 	connect(type = 'mongodb') {
 		if (1 === 1) {
-			mongoose.set('debug', true);
-			mongoose.set('debug', { color: true });
+			// mongoose.set('debug', true);
+			// mongoose.set('debug', { color: true });
 		}
 		mongoose
 			.connect(connectString)

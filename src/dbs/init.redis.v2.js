@@ -27,11 +27,7 @@ class RedisDB {
 			this.client = new redis(connectConfig);
 
 			this.client.on('connect', () => {
-				console.log('\x1b[35m Redis connection: \x1b[32m success');
-			});
-
-			this.client.on('ready', () => {
-				console.log('\x1b[35m Redis client is ready');
+				console.log('\x1b[35m Connect Redis: \x1b[32msuccess');
 			});
 
 			this.client.on('error', (err) => {

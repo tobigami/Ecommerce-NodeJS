@@ -2,19 +2,9 @@
 
 const { DEV_APP_PORT, DEV_DB_PORT, DEV_DB_NAME, PRO_APP_PORT, PRO_DB_PORT, PRO_DB_NAME, ENVIRONMENT } = process.env;
 
-// level 0
-// const config = {
-//     app: {
-//         port: 3000
-//     },
-//     db: {
-//         host: '127.0.0.1',
-//         name: 'shopDEV'
-//     }
-// }
 
 // level 1
-const dev = {
+const development = {
 	app: {
 		port: DEV_APP_PORT,
 	},
@@ -34,5 +24,5 @@ const pro = {
 	},
 };
 
-const config = { dev, pro };
-module.exports = config[ENVIRONMENT || 'dev'];
+const config = { development, pro };
+module.exports = config[ENVIRONMENT || 'development'];
