@@ -1,7 +1,7 @@
 {
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"cSpell.words": ["Apikey", "Apikeys", "cloudinary", "REFRESHTOKEN"],
+	"cSpell.words": ["Apikey", "Apikeys", "cloudinary", "inven", "REFRESHTOKEN"],
 	"editor.fontFamily": "'Cascadia Code',Consolas, 'Courier New', monospace",
 	"editor.mouseWheelZoom": true,
 	"[javascript]": {

@@ -60,6 +60,27 @@ class DiscountService {
 			throw new BadRequestError(`Discount code is exists`);
 		}
 
+		// check productIds is owner shop
+		if (appliesTo === 'specific' && productIds.length) {
+			// Query all products to verify they belong to this shop
+			const products = await findAllProducts({
+				filter: {
+					_id: { $in: productIds },
+					product_shop: convertToObjectIdMongodb(shopId),
+				},
+				limit: productIds.length,
+				page: 1,
+			});
+
+			console.log('products', products);
+
+			// If the number of returned products doesn't match the number of product IDs provided,
+			// it means some products don't belong to this shop
+			if (products.length !== productIds.length) {
+				throw new BadRequestError(`Some product IDs don't belong to your shop`);
+			}
+		}
+
 		const newDiscount = await discountModel.create({
 			discount_name: name,
 			discount_description: description,

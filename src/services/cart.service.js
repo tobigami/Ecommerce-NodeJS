@@ -31,6 +31,7 @@ class CartService {
 
 		if (userCart.cart_products.some((pro) => pro.productId === product.productId)) {
 			// update quantity case update quantity item if product exist in cart
+			console.log('entry to this caseeeeee');
 			return await updateUserCartQuantity({ userId, product });
 		}
 		// push product to cart when product not exist in cart

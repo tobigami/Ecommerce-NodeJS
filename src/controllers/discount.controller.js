@@ -18,7 +18,7 @@ class DiscountController {
 	// get list discount by shop
 	getAllDiscountCodesByShop = async (req, res) => {
 		return new SuccessResponse({
-			message: 'Successful Code Found',
+			message: 'Successfully Code Found',
 			metadata: await DiscountService.getAllDiscountCodeByShop({
 				...req.query,
 				shopId: req.user.userId,
