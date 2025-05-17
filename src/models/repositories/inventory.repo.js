@@ -1,4 +1,3 @@
-const { create } = require('lodash');
 const inventoryModel = require('../inventory.model');
 
 const insertInventory = async ({ productId, shopId, stock, location = 'unKnow' }) => {
@@ -31,6 +30,8 @@ const reservationInventory = async ({ productId, quantity, cardId }) => {
 			new: true,
 			upsert: true,
 		};
+
+	console.log('quantity::', quantity, typeof quantity);
 
 	return await inventoryModel.updateOne(query, updateSet, options);
 };

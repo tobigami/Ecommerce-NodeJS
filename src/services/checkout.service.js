@@ -3,6 +3,7 @@
 const { BadRequestError, NotFoundError } = require('../core/error.response');
 const { findCartById } = require('../models/repositories/cart.repo');
 const { reservationInventory } = require('../models/repositories/inventory.repo');
+const { createOrder } = require('../models/repositories/order.repo');
 const { checkListProduct, updateProductQuantity } = require('../models/repositories/product.repo');
 const { getDiscountAmount } = require('./discount.service');
 const { acquireLock, releaseLock } = require('./redis.service'); // Added redis lock service
@@ -176,14 +177,24 @@ class CheckoutService {
 			}
 		}
 
-		return 1411;
+		const newOrder = await createOrder({
+			userId,
+			order: {
+				order_checkout: checkoutOrder,
+				order_shipping: userAddress,
+				order_payment: usePayment,
+				order_products: shopOrderIdsNew,
+			},
+		});
 
-		// return {
-		// 	shopOrderIdsNew,
-		// 	checkoutOrder,
-		// };
+		console.log('New order created:', newOrder);
 
-		// create new order here
+		// remove products in cart
+		if (newOrder) {
+			console.log('111111111111111111111111');
+		}
+
+		return newOrder;
 	}
 }
 

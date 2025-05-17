@@ -1,32 +1,40 @@
 const axios = require('axios');
 
 // Cấu hình chung
-const API_URL = 'http://localhost:3055/v1/api/checkout/order'; // Thay đổi nếu endpoint của bạn khác
+const API_URL = 'http://localhost:3055/v1/api/checkout/final'; // Thay đổi nếu endpoint của bạn khác
 const CONCURRENT_REQUESTS = 5; // Số lượng yêu cầu đồng thời
-const PRODUCT_ID_TO_TEST = 'product_abc_123'; // ID của sản phẩm có số lượng tồn kho thấp
-const USER_ID = 'user_test_1';
-const CART_ID = 'cart_test_1';
-
-// Dữ liệu mẫu cho một shop order - bạn cần điều chỉnh cho phù hợp với sản phẩm và shop của bạn
-const sampleShopOrder = {
-	shopId: 'shop_xyz_789', // ID của shop chứa sản phẩm
-	shopDiscounts: [], // Mã giảm giá nếu có
-	itemProducts: [
-		{
-			productId: PRODUCT_ID_TO_TEST,
-			price: 100, // Giá sản phẩm (có thể không quan trọng bằng quantity cho test này)
-			quantity: 1, // Số lượng mỗi người dùng cố gắng mua
-		},
-	],
-};
+const PRODUCT_ID_TO_TEST = '68254e230727d517bdb3621e'; // ID của sản phẩm có số lượng tồn kho thấp
+const USER_ID = 1411;
+const CART_ID = '682567d5e4b4d9608d4f426d';
 
 // Payload cho API finalCheckoutByUser
 const checkoutPayload = {
-	cartId: CART_ID,
-	userId: USER_ID,
-	shopOrderIds: [sampleShopOrder],
-	userAddress: { city: 'Test City', street: 'Test Street' },
-	usePayment: { method: 'COD' },
+	cartId: '682567d5e4b4d9608d4f426d',
+	userId: 1411,
+	shopOrderIds: [
+		{
+			shopId: '6824be9d585aca2878b7c00b',
+			shopDiscounts: ['s1-20', 's1-10'],
+			itemProducts: [
+				{
+					productId: '68254e230727d517bdb3621e',
+					price: 280,
+					quantity: 8,
+				},
+			],
+		},
+		{
+			shopId: '6824be9d585aca2878b7c00b',
+			shopDiscounts: [],
+			itemProducts: [
+				{
+					productId: '68254e450727d517bdb36232',
+					price: 150,
+					quantity: 2,
+				},
+			],
+		},
+	],
 };
 
 // Headers (nếu cần, ví dụ: token xác thực)
