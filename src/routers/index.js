@@ -9,6 +9,7 @@ const { pushLogToDiscord } = require('../middlewares');
 router.get('/v1/api/create-api-key', require('../services/apikey.service').createApiKey);
 router.use('/v1/api/ipa', require('./ipa'));
 router.use('/v1/api/test', require('./test'));
+router.use('/v1/api/tarot', require('./tarot.routes'));
 
 // push log to discord
 router.use(pushLogToDiscord);

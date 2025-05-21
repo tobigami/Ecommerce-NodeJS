@@ -31,8 +31,6 @@ const reservationInventory = async ({ productId, quantity, cardId }) => {
 			upsert: true,
 		};
 
-	console.log('quantity::', quantity, typeof quantity);
-
 	return await inventoryModel.updateOne(query, updateSet, options);
 };
 
