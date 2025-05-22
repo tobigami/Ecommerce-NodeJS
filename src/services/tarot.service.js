@@ -2,7 +2,7 @@
 
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { GEMINI_KEY } = process.env;
-const { addTarotFeedback } = require('../models/repositories/tarot.repo');
+const { addTarotFeedback, tarotAdd } = require('../models/repositories/tarot.repo');
 
 class TarotService {
 	static async reading({ question, cards, ip, name, age, isDev }) {
