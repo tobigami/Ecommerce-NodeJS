@@ -2,7 +2,7 @@
 
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { GEMINI_KEY } = process.env;
-const { addTarotFeedback } = require('../models/repositories/tarot.repo');
+const { addTarotFeedback, tarotAdd } = require('../models/repositories/tarot.repo');
 
 class TarotService {
 	static async reading({ question, cards, ip, name, age, isDev }) {
@@ -84,6 +84,7 @@ Yêu cầu giải nghĩa (nếu câu hỏi có ý nghĩa):
 			try {
 				await tarotAdd({ name, age, question, ip, isDev }); // isDev will use default in model
 			} catch (dbError) {
+				console.error('Error adding record to tarot db:', dbError);
 				// Log the error, but don't let it stop the function from returning obj.
 				// Consider how to handle this error more robustly if needed, e.g. using a dedicated logger.
 			}
