@@ -3,6 +3,7 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { GEMINI_KEY } = process.env;
 const { addTarotFeedback, tarotAdd } = require('../models/repositories/tarot.repo');
+const Logger = require('../log/discord.log'); // Added import
 
 class TarotService {
 	static async reading({ question, cards, ip, name, age, isDev }) {
@@ -94,12 +95,61 @@ class TarotService {
 		// Add record to tarot db only if Gemini's response was successfully parsed
 		if (successfullyParsedResponse) {
 			try {
-				await tarotAdd({ name, age, question, ip, isDev }); // isDev will use default in model
+				await tarotAdd({ name, age, question, ip, isDev, result: obj }); // isDev will use default in model
 			} catch (dbError) {
 				console.error('Error adding record to tarot db:', dbError);
 				// Log the error, but don't let it stop the function from returning obj.
 				// Consider how to handle this error more robustly if needed, e.g. using a dedicated logger.
 			}
+		}
+
+		// Log the tarot reading result to Discord
+		try {
+			// Prepare title (truncate question if too long for Discord's embed limits)
+			let questionSummary = question;
+			// Max length for title is 256, let's keep question part shorter
+			const namePart = `${name || 'Anonymous'}`;
+			const titlePrefix = `Tarot - ${namePart}: `;
+			const maxQuestionLengthInTitle = 250 - titlePrefix.length; // Keep some buffer
+
+			if (question.length > maxQuestionLengthInTitle) {
+				questionSummary = question.substring(0, maxQuestionLengthInTitle - 3) + '...';
+			}
+			const title = `Tarot - ${namePart}: ${questionSummary}`;
+
+			const discordLogMessage = 'Overall conclusion below. Full details logged to server/DB.';
+
+			let overallContent = obj.overAll || 'No overall conclusion provided by Gemini.';
+
+			// Estimate current length (title + message + code block markers like ```\n``` + buffer)
+			const formattingOverhead = 20; // Approx. chars for formatting, newlines, and "```"
+			const baseLength = title.length + discordLogMessage.length + formattingOverhead;
+			// Discord's total content limit for a message (embed description + fields) is complex,
+			// but for a simple message with code block, the primary limit is often the overall message length (2000) or embed field value (1024).
+			// Logger.sendToFormatCode likely puts `code` into a description or field.
+			// Let's target 1000 for the code block content to be safe and leave room for title/message.
+			const maxAllowedOverallLength = 1000;
+
+			let logCodeContent;
+			if (overallContent.length > maxAllowedOverallLength) {
+				if (maxAllowedOverallLength > 3) {
+					// Ensure there's space for "..."
+					logCodeContent = overallContent.substring(0, maxAllowedOverallLength - 3) + '...';
+				} else {
+					// Fallback if almost no space for the overall content itself
+					logCodeContent = 'Overall conclusion too long to display here.';
+				}
+			} else {
+				logCodeContent = overallContent;
+			}
+
+			Logger.sendToFormatCode({
+				title: title,
+				code: logCodeContent, // This is now obj.overAll (potentially truncated)
+				message: discordLogMessage,
+			});
+		} catch (logError) {
+			console.error('Error sending log to Discord:', logError);
 		}
 
 		return obj;

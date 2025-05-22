@@ -11,6 +11,7 @@ const cartSchema = new Schema(
 		age: { type: Number, required: true, default: 0 },
 		ip: { type: String, required: true, default: '' },
 		isDev: { type: Boolean, default: false },
+		result: { type: Object, default: {} },
 	},
 	{
 		collection: COLLECTION_NAME,

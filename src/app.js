@@ -8,7 +8,7 @@ const app = express();
 const cors = require('cors');
 
 // 1. init middleware
-app.use(morgan('dev'));
+app.use(morgan('combined'));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
