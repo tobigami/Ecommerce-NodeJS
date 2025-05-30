@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # Node.js application
+  app:
+    build: .
+    container_name: ecommerce-nodejs-app
+    restart: always
+    ports:
+      - '3055:3055'
+    environment:
+      # App environment
+      - ENVIRONMENT=development
+      - PORT=3055
+      - DEV_APP_PORT=3055
+      - DEV_DB_PORT=mongodb
+      - DEV_DB_NAME=shopDEV
+      - PRO_APP_PORT=4055
+      - PRO_DB_PORT=mongodb
+      - PRO_DB_NAME=shopPRO
+
+      # Discord bot
+      - TOKEN_BOT_LOG=${TOKEN_BOT_LOG}
+      - CHANNEL_ID_DISCORD=${CHANNEL_ID_DISCORD}
+
+      # RabbitMQ
+      - RABBIT_MQ_PASS=guest
+
+      # MongoDB
+      - MONGODB_URI=mongodb://mongodb:27017/shopDEV
+
+      # MySQL
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=12345
+      - MYSQL_DB_NAME=dev
+      - MYSQL_PORT=3306
+
+      # Redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+      # GEMINI
+      - GEMINI_KEY=${GEMINI_KEY}
+
+      # Auth keys
+      - AUTH_PRIVATE=${AUTH_PRIVATE}
+      - AUTH_PUBLIC=${AUTH_PUBLIC}
+
+      # Cloudinary
+      - CLOUDINARY_NAME=${CLOUDINARY_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_SECRET_KEY=${CLOUDINARY_SECRET_KEY}
+
+      # AWS S3
+      - AWS_BUCKET_REGION=${AWS_BUCKET_REGION}
+      - AWS_S3_NAME=${AWS_S3_NAME}
+      - AWS_S3_API_KEY=${AWS_S3_API_KEY}
+      - AWS_S3_SECRET_KEY=${AWS_S3_SECRET_KEY}
+      - AWS_CLOUD_FRONT=${AWS_CLOUD_FRONT}
+      - AWS_KEY_PUBLIC_ID=${AWS_KEY_PUBLIC_ID}
+      - CLOUD_FRONT_PRIVATE_KEY=${CLOUD_FRONT_PRIVATE_KEY}
+    volumes:
+      - ./src/uploads:/app/src/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - mongodb
+      - mysql
+      - redis
+    networks:
+      - ecommerce-network
+
+  # MongoDB service
+  mongodb:
+    image: mongo:latest
+    container_name: ecommerce-mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb-data:/data/db
+    command: mongod --bind_ip_all
+    networks:
+      - ecommerce-network
+
+  # MySQL service
+  mysql:
+    image: mysql:8.0
+    container_name: ecommerce-mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=dev
+      - MYSQL_TCP_PORT=3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+
+  # Redis service
+  redis:
+    image: redis:alpine
+    container_name: ecommerce-redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - ecommerce-network
+
+# Volumes for data persistence
+volumes:
+  mongodb-data:
+  mysql-data:
+  redis-data:
+
+# Network for communication between containers
+networks:
+  ecommerce-network:
+    driver: bridge
