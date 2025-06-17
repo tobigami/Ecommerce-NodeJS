@@ -6,7 +6,7 @@ const { apiKey, permission } = require('../auth/checkAuth');
 const { pushLogToDiscord } = require('../middlewares');
 
 // push log to discord
-router.use(pushLogToDiscord);
+// router.use(pushLogToDiscord);
 
 // create api key
 router.get('/v1/api/create-api-key', require('../services/apikey.service').createApiKey);
