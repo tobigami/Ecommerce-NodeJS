@@ -1,7 +1,12 @@
+/**
+ * select * 4:13
+ * des:  2:03
+ */
+
 'use strict';
 
 const MODEL_NAME = 'User';
-const TABLE_NAME = 'User';
+const TABLE_NAME = 'users';
 
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
@@ -17,22 +22,35 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	User.init(
 		{
-			id: {
+			user_id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			age: {
-				type: DataTypes.INTEGER,
+			user_email: {
+				type: DataTypes.STRING(30),
+				defaultValue: '',
+				allowNull: false,
+			},
+			user_phone: {
+				type: DataTypes.STRING(15),
+				defaultValue: '',
+				allowNull: false,
+			},
+			user_username: {
+				type: DataTypes.STRING(30),
+				defaultValue: '',
+				allowNull: false,
+			},
+			user_password: {
+				type: DataTypes.STRING(32),
+				defaultValue: '',
+				allowNull: false,
+			},
+			user_status: {
+				type: DataTypes.TINYINT,
 				defaultValue: 0,
-			},
-			name: {
-				type: DataTypes.TEXT,
-				defaultValue: '',
-			},
-			email: {
-				type: DataTypes.TEXT,
-				defaultValue: '',
+				allowNull: false,
 			},
 		},
 		{
@@ -40,6 +58,8 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: MODEL_NAME,
 			tableName: TABLE_NAME,
 			timestamps: true,
+			createdAt: 'user_createdAt',
+			updatedAt: 'user_updatedAt',
 		},
 	);
 	return User;

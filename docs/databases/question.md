@@ -23,6 +23,9 @@ video demo: https://www.youtube.com/watch?v=2sfOGqLKXq8
 
 - when sharding data base video demo: https://www.youtube.com/watch?v=xya2ClZWbNM
 
+- 1 table khi quá 5m hoặc 2G thì sẽ tách table (chia ngang ) ví dụ 1 bảng có 10 triệu thì tách ra thành 2 bảng mỗi bảng 5 triệu 
+- Chia dọc là t table có 10 field thì chia ra mỗi table sẽ có 5 field, và 2 table vẫn giữ nguyên số lượng record 
+
 ---
 
 - Nguyên tắc khi đánh index là dùng cho những dữ liệu ít trùng lặp
