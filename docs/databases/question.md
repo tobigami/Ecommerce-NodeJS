@@ -35,4 +35,4 @@ video demo: https://www.youtube.com/watch?v=2sfOGqLKXq8
 
 ---
 rule 9 3NF
-video docs: https://www.youtube.com/watch?v=-N3x7ESpHrQ&t=75s
+video docs: https://www.youtube.com/watch? v=-N3x7ESpHrQ&t=75s
