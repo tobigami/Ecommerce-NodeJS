@@ -1,2 +1,0 @@
-- cho phép insert ngay cả khi chưa có collection
-- 
