@@ -28,6 +28,7 @@
 		"amqplib": "^0.10.4",
 		"axios": "^1.8.4",
 		"bcrypt": "^5.1.1",
+		"bullmq": "^5.56.0",
 		"cheerio": "^1.0.0",
 		"cloudinary": "^2.5.0",
 		"cors": "^2.8.5",

@@ -10,7 +10,7 @@ const getScheduleEmailById = async (id) => {
 };
 
 const getScheduleEmailCanSend = async (id) => {
-	return await ScheduledEmails.find({
+	return await ScheduledEmails.findOne({
 		where: {
 			id: id,
 			status: {
@@ -23,4 +23,8 @@ const getScheduleEmailCanSend = async (id) => {
 	});
 };
 
-module.exports = { getScheduleEmailById, getScheduleEmailCanSend };
+const addScheduleEmailRepo = async (emailData) => {
+	return await ScheduledEmails.create(emailData);
+};
+
+module.exports = { getScheduleEmailById, getScheduleEmailCanSend, addScheduleEmailRepo };

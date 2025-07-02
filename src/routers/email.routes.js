@@ -6,5 +6,6 @@ const asyncHandler = require('../helper/asyncHandler');
 const router = express.Router();
 
 router.post('/send', asyncHandler(EmailController.sendEmail));
+router.post('/add', asyncHandler(EmailController.addScheduleEmail));
 
 module.exports = router;

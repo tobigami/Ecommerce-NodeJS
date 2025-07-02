@@ -43,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: '',
 			},
 			scheduled_time: {
-				type: DataTypes.STRING(255),
+				type: DataTypes.DATE,
 				allowNull: false,
-				defaultValue: '',
+				defaultValue: DataTypes.NOW,
 			},
 			status: {
 				type: DataTypes.ENUM('pending', 'sent', 'failed'),
@@ -61,6 +61,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.SMALLINT.UNSIGNED,
 				allowNull: false,
 				defaultValue: 3,
+			},
+			job_id: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				defaultValue: null,
 			},
 			cc: {
 				type: DataTypes.STRING(255),

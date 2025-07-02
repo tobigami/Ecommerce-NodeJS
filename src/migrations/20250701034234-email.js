@@ -64,6 +64,11 @@ module.exports = {
 				type: Sequelize.STRING(255),
 				defaultValue: '',
 			},
+			job_id: {
+				allowNull: true,
+				type: Sequelize.STRING(255),
+				defaultValue: null,
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,

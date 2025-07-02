@@ -8,6 +8,13 @@ class EmailController {
 			metadata: await EmailService.sendEmail(req.body.id),
 		}).send(res);
 	};
+
+	addScheduleEmail = async (req, res) => {
+		return new SuccessResponse({
+			message: 'Email scheduled successfully',
+			metadata: await EmailService.addScheduleEmail(req.body),
+		}).send(res);
+	};
 }
 
 module.exports = new EmailController();
