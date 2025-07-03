@@ -32,7 +32,19 @@ app.use(
 
 // 2. INIT DATA BASE
 const redisDb = require('./dbs/init.redis.v2'); // redis
-redisDb.init();
+// Khởi tạo Redis trước khi khởi động worker
+(async () => {
+	try {
+		await redisDb.init();
+		console.log('Redis initialized successfully');
+
+		// Initialize Email Worker sau khi Redis đã được khởi tạo
+		require('./services/email.worker.service');
+		console.log('Email worker initialized and ready to process jobs');
+	} catch (error) {
+		console.error('Failed to initialize Redis:', error);
+	}
+})();
 
 const { connectMysqlDB } = require('./dbs/init.mysql'); // mysql
 connectMysqlDB();

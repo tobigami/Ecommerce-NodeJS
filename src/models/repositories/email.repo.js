@@ -27,4 +27,37 @@ const addScheduleEmailRepo = async (emailData) => {
 	return await ScheduledEmails.create(emailData);
 };
 
-module.exports = { getScheduleEmailById, getScheduleEmailCanSend, addScheduleEmailRepo };
+const updateEmailStatusRepo = async ({ id, status, jobId = null }) => {
+	return await ScheduledEmails.update(
+		{
+			status,
+			job_id: jobId,
+			...(status === 'failed'
+				? { retry_count: ScheduledEmails.sequelize.literal('retry_count + 1') }
+				: {}),
+		},
+		{
+			where: { id },
+		},
+	);
+};
+
+const getAllEmailSchedulesRepo = async () => {
+	return await ScheduledEmails.findAll({
+		where: {
+			status: 'pending',
+			job_id: null,
+			scheduled_time: {
+				[Op.gt]: new Date(),
+			},
+		},
+	});
+};
+
+module.exports = {
+	getScheduleEmailById,
+	getScheduleEmailCanSend,
+	addScheduleEmailRepo,
+	updateEmailStatusRepo,
+	getAllEmailSchedulesRepo,
+};

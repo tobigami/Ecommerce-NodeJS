@@ -16,7 +16,7 @@ class RedisDB {
 				console.error('Redis reconnect on error', err);
 				return true;
 			},
-			maxRetriesPerRequest: 5,
+			maxRetriesPerRequest: null, // BullMQ yêu cầu giá trị này phải là null
 			enableReadyCheck: true,
 		};
 
