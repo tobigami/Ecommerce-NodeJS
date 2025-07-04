@@ -23,8 +23,47 @@ const getScheduleEmailCanSend = async (id) => {
 	});
 };
 
+// using raw query to insert email schedule
 const addScheduleEmailRepo = async (emailData) => {
-	return await ScheduledEmails.create(emailData);
+	const {
+		from_email,
+		to_email,
+		subject,
+		body = '',
+		html_body = '',
+		scheduled_time,
+		status = 'pending',
+		cc = '',
+		bcc = '',
+	} = emailData;
+
+	// Đầu tiên, thiết lập timezone là UTC
+	// await ScheduledEmails.sequelize.query(`SET time_zone = '+00:00'`);
+
+	// Sau đó thực hiện truy vấn chèn, sử dụng default values của schema
+	const [result] = await ScheduledEmails.sequelize.query(
+		`INSERT INTO ScheduledEmails 
+		 (from_email, to_email, subject, body, html_body, scheduled_time, status, 
+		  cc, bcc, createdAt, updatedAt) 
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+		{
+			replacements: [
+				from_email,
+				to_email,
+				subject,
+				body,
+				html_body,
+				scheduled_time,
+				status,
+				cc,
+				bcc,
+			],
+			type: ScheduledEmails.sequelize.QueryTypes.INSERT,
+		},
+	);
+
+	const insertId = result;
+	return await getScheduleEmailById(insertId);
 };
 
 const updateEmailStatusRepo = async ({ id, status, jobId = null }) => {

@@ -38,7 +38,7 @@ const redisDb = require('./dbs/init.redis.v2'); // redis
 		await redisDb.init();
 		console.log('Redis initialized successfully');
 
-		// Initialize Email Worker sau khi Redis đã được khởi tạo
+		// Initialize Email Worker
 		require('./services/email.worker.service');
 		console.log('Email worker initialized and ready to process jobs');
 	} catch (error) {

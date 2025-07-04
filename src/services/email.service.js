@@ -54,45 +54,32 @@ class EmailService {
 	}
 
 	static async addScheduleEmail(emailData) {
-		// Khởi tạo dữ liệu email
-		const { from_email, to_email, subject, scheduled_time } = emailData;
-
-		if (!from_email.trim() || !to_email.trim() || !subject.trim()) {
-			throw new BadRequestError('Missing required fields');
-		}
-
-		if (isNaN(Date.parse(scheduled_time))) {
-			throw new BadRequestError('Invalid schedule time format');
-		}
-
-		// Compare both dates in UTC
-		if (new Date(scheduled_time) < new Date()) {
-			throw new BadRequestError('Scheduled time must be in the future');
-		}
-
-		// Format the date for MySQL - convert ISO string to MySQL datetime format
-		const formattedData = {
-			...emailData,
-			scheduled_time: new Date(scheduled_time).toISOString().slice(0, 19).replace('T', ' '),
-		};
-
-		// Kiểm tra Redis connection trước khi thực hiện
-		if (!redisDb.get()) {
-			console.warn('Redis client not initialized. Initializing now...');
-			await redisDb.init();
-		}
-
-		// save schedule email to database
-		const savedEmail = await addScheduleEmailRepo(formattedData);
-
 		try {
-			// Chuyển đổi scheduled_time từ định dạng MySQL sang đối tượng Date trước khi gửi vào queue
-			const scheduledDate = new Date(scheduled_time);
+			const { from_email, to_email, subject, scheduled_time } = emailData;
 
-			// add job to email queue - với delay rõ ràng - sử dụng đối tượng Date thay vì chuỗi MySQL
+			if (!from_email.trim() || !to_email.trim() || !subject.trim()) {
+				throw new BadRequestError('Missing required fields');
+			}
+
+			if (isNaN(Date.parse(scheduled_time))) {
+				throw new BadRequestError('Invalid schedule time format');
+			}
+
+			// Compare both dates in UTC
+			if (new Date(scheduled_time) < new Date()) {
+				throw new BadRequestError('Scheduled time must be in the future');
+			}
+
+			// save to DB
+			const savedEmail = await addScheduleEmailRepo({
+				...emailData,
+				scheduled_time: scheduled_time.slice(0, 19).replace('T', ' '),
+			});
+
+			// add job to email queue
 			const queueResult = await EmailQueue.addEmailJob({
 				emailId: savedEmail.id,
-				scheduled_time: scheduledDate,
+				scheduled_time: scheduled_time,
 			});
 
 			console.log(`Job scheduled with ID: ${queueResult.jobId} for email ID: ${savedEmail.id}`);
@@ -104,8 +91,6 @@ class EmailService {
 				jobId: queueResult.jobId,
 			});
 
-			// Ghi log để debug
-			await getScheduleEmailById(savedEmail.id);
 			return savedEmail;
 		} catch (error) {
 			console.error(`Failed to schedule email job: ${error.message}`);
@@ -115,6 +100,9 @@ class EmailService {
 
 	static async rescheduleEmails() {
 		try {
+			const existingJobs = await EmailQueue.getListJobsActive();
+
+			console.log('existingJobs :>> ', existingJobs);
 			const emailsToSchedule = await getAllEmailSchedulesRepo();
 
 			const results = [];

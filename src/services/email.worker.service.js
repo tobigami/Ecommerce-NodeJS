@@ -41,7 +41,6 @@ class EmailWorker {
 			console.error(`Email job ${job.id} has failed:`, error);
 		});
 
-		// Lập lịch lại các email chưa gửi khi khởi động ứng dụng
 		this.rescheduleEmails();
 	}
 
