@@ -69,18 +69,42 @@ class EmailQueue {
 	async getListJobsActive() {
 		try {
 			const jobs = await this.queue.getJobs(['active', 'waiting', 'delayed']);
-			return jobs.map((job) => ({
-				id: job.id,
-				data: job.data,
-				timestamp: job.timestamp,
-				delay: job.delay,
-				attemptsMade: job.attemptsMade,
-				failedReason: job.failedReason,
-			}));
+			return jobs.map((job) => {
+				return {
+					id: job.id,
+					data: job.data,
+					timestamp: job.timestamp,
+					delay: job.delay,
+					attemptsMade: job.attemptsMade,
+					failedReason: job.failedReason,
+				};
+			});
 		} catch (error) {
 			console.error('Error fetching active jobs:', error);
 			throw error;
 		}
+	}
+
+	async removeJob(jobId) {
+		try {
+			if (!jobId) return false;
+
+			const job = await this.queue.getJob(jobId);
+			if (job) {
+				await job.remove();
+				console.log(`Job with ID ${jobId} successfully removed`);
+				return true;
+			} else {
+				console.log(`Job with ID ${jobId} not found`);
+				return false;
+			}
+		} catch (error) {
+			console.error(`Error removing job ${jobId}:`, error);
+			return false;
+		}
+	}
+	catch(err) {
+		throw err;
 	}
 }
 

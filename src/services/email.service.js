@@ -1,13 +1,13 @@
 const { BadRequestError } = require('../core/error.response');
-const redisDb = require('../dbs/init.redis.v2');
 const EmailQueue = require('./email.queue.service');
 
 const {
-	getScheduleEmailById,
 	getScheduleEmailCanSend,
 	addScheduleEmailRepo,
 	updateEmailStatusRepo,
 	getAllEmailSchedulesRepo,
+	getScheduleEmailById,
+	updateScheduleEmailRepo,
 } = require('../models/repositories/email.repo');
 
 class EmailService {
@@ -20,7 +20,7 @@ class EmailService {
 			const emailInfo = await getScheduleEmailCanSend(emailId);
 
 			if (!emailInfo) {
-				throw new BadRequestError('Email not found');
+				throw new BadRequestError(`Email not found:: ${id}`);
 			}
 
 			console.log(`[MOCK EMAIL SERVICE] Sending email:
@@ -100,9 +100,6 @@ class EmailService {
 
 	static async rescheduleEmails() {
 		try {
-			const existingJobs = await EmailQueue.getListJobsActive();
-
-			console.log('existingJobs :>> ', existingJobs);
 			const emailsToSchedule = await getAllEmailSchedulesRepo();
 
 			const results = [];
@@ -141,6 +138,73 @@ class EmailService {
 			};
 		} catch (error) {
 			console.error('Failed to reschedule emails:', error);
+			throw error;
+		}
+	}
+
+	static async getListJob() {
+		try {
+			const jobs = await EmailQueue.getListJobsActive();
+
+			return jobs.map((job) => ({
+				id: job.id,
+				data: job.data,
+			}));
+		} catch (error) {
+			console.error('Failed to retrieve email jobs:', error);
+			throw error;
+		}
+	}
+
+	static async updateScheduleEmail(id, body) {
+		try {
+			const emailExit = await getScheduleEmailById(id);
+
+			if (!emailExit) throw new BadRequestError(`Email schedule not found :: ${id}`);
+
+			const updateData = {};
+			// Check each possible field and only add it to updateData if it exists in body
+			if (body.from_email != null) updateData.from_email = body.from_email;
+			if (body.to_email != null) updateData.to_email = body.to_email;
+			if (body.subject != null) updateData.subject = body.subject;
+			if (body.body != null) updateData.body = body.body;
+			if (body.html_body != null) updateData.html_body = body.html_body;
+
+			// handle scheduled_time
+			if (body.scheduled_time != null) {
+				if (isNaN(Date.parse(body.scheduled_time))) {
+					throw new BadRequestError('Invalid schedule time format');
+				}
+
+				// compare both dates in UTC
+				if (new Date(body.scheduled_time) < new Date()) {
+					throw new BadRequestError('Scheduled time must be in the future');
+				}
+
+				updateData.scheduled_time = body.scheduled_time.slice(0, 19).replace('T', ' ');
+
+				if (emailExit.job_id) {
+					await EmailQueue.removeJob(emailExit.job_id);
+				}
+
+				// update new job in queue
+				const queueResult = await EmailQueue.addEmailJob({
+					emailId: emailExit.id,
+					scheduled_time: updateData.scheduled_time,
+				});
+
+				updateData.status = 'pending';
+				updateData.job_id = queueResult.jobId;
+			}
+
+			if (Object.keys(updateData).length === 0) {
+				return emailExit;
+			}
+
+			console.log('updateData :>> ', updateData);
+
+			return await updateScheduleEmailRepo(id, updateData);
+		} catch (error) {
 			throw error;
 		}
 	}

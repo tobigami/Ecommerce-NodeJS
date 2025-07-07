@@ -15,6 +15,26 @@ class EmailController {
 			metadata: await EmailService.addScheduleEmail(req.body),
 		}).send(res);
 	};
+
+	/**
+	 *
+	 * @param {*} req
+	 * @param {*} res
+	 * @returns
+	 */
+	getListJob = async (_, res) => {
+		return new SuccessResponse({
+			message: 'List of scheduled emails',
+			metadata: await EmailService.getListJob(),
+		}).send(res);
+	};
+
+	updateScheduleEmail = async (req, res) => {
+		return new SuccessResponse({
+			message: 'Email schedule updated successfully',
+			metadata: await EmailService.updateScheduleEmail(req.params.id, req.body),
+		}).send(res);
+	};
 }
 
 module.exports = new EmailController();

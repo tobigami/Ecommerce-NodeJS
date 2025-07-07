@@ -37,10 +37,6 @@ const addScheduleEmailRepo = async (emailData) => {
 		bcc = '',
 	} = emailData;
 
-	// Đầu tiên, thiết lập timezone là UTC
-	// await ScheduledEmails.sequelize.query(`SET time_zone = '+00:00'`);
-
-	// Sau đó thực hiện truy vấn chèn, sử dụng default values của schema
 	const [result] = await ScheduledEmails.sequelize.query(
 		`INSERT INTO ScheduledEmails 
 		 (from_email, to_email, subject, body, html_body, scheduled_time, status, 
@@ -85,12 +81,81 @@ const getAllEmailSchedulesRepo = async () => {
 	return await ScheduledEmails.findAll({
 		where: {
 			status: 'pending',
-			job_id: null,
-			scheduled_time: {
-				[Op.gt]: new Date(),
-			},
 		},
 	});
+};
+
+const updateScheduleEmailRepo = async (id, updateData) => {
+	const { from_email, to_email, subject, body, html_body, scheduled_time, status, cc, bcc } =
+		updateData;
+
+	// Build dynamic SET clause
+	let setClause = [];
+	let replacements = [];
+
+	if (from_email !== undefined) {
+		setClause.push('from_email = ?');
+		replacements.push(from_email);
+	}
+
+	if (to_email !== undefined) {
+		setClause.push('to_email = ?');
+		replacements.push(to_email);
+	}
+
+	if (subject !== undefined) {
+		setClause.push('subject = ?');
+		replacements.push(subject);
+	}
+
+	if (body !== undefined) {
+		setClause.push('body = ?');
+		replacements.push(body);
+	}
+
+	if (html_body !== undefined) {
+		setClause.push('html_body = ?');
+		replacements.push(html_body);
+	}
+
+	if (scheduled_time !== undefined) {
+		setClause.push('scheduled_time = ?');
+		replacements.push(scheduled_time);
+	}
+
+	if (status !== undefined) {
+		setClause.push('status = ?');
+		replacements.push(status);
+	}
+
+	if (cc !== undefined) {
+		setClause.push('cc = ?');
+		replacements.push(cc);
+	}
+
+	if (bcc !== undefined) {
+		setClause.push('bcc = ?');
+		replacements.push(bcc);
+	}
+
+	// Add updatedAt
+	setClause.push('updatedAt = NOW()');
+
+	// Only proceed if there are fields to update
+	if (setClause.length > 0) {
+		await ScheduledEmails.sequelize.query(
+			`UPDATE ScheduledEmails 
+			 SET ${setClause.join(', ')}
+			 WHERE id = ?`,
+			{
+				replacements: [...replacements, id],
+				type: ScheduledEmails.sequelize.QueryTypes.UPDATE,
+			},
+		);
+	}
+
+	// Return the updated email
+	return await getScheduleEmailById(id);
 };
 
 module.exports = {
@@ -99,4 +164,5 @@ module.exports = {
 	addScheduleEmailRepo,
 	updateEmailStatusRepo,
 	getAllEmailSchedulesRepo,
+	updateScheduleEmailRepo,
 };

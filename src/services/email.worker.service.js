@@ -53,6 +53,27 @@ class EmailWorker {
 			console.error('Failed to reschedule emails on startup:', error);
 		}
 	}
+
+	async getListJobs() {
+		try {
+			const jobs = await this.worker.getJobs(['waiting', 'active', 'completed', 'failed']);
+			return jobs.map((job) => ({
+				id: job.id,
+				data: job.data,
+				status: job.finishedOn
+					? 'completed'
+					: job.failedReason
+						? 'failed'
+						: job.isActive()
+							? 'active'
+							: 'waiting',
+				finishedOn: job.finishedOn,
+				failedReason: job.failedReason,
+			}));
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = new EmailWorker();
