@@ -50,4 +50,4 @@ class LogService {
 	}
 }
 
-module.exports = new LogService();
+// module.exports = new LogService();

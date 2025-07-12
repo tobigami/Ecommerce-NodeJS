@@ -13,7 +13,6 @@ const {
 class EmailService {
 	static async sendEmail(id) {
 		try {
-			// Đảm bảo id là số nguyên (nếu được truyền vào dưới dạng chuỗi có tiền tố)
 			const emailId =
 				typeof id === 'string' && id.startsWith('email-') ? parseInt(id.replace('email-', '')) : id;
 
@@ -23,10 +22,12 @@ class EmailService {
 				throw new BadRequestError(`Email not found:: ${id}`);
 			}
 
-			console.log(`[MOCK EMAIL SERVICE] Sending email:
-				From: ${emailInfo.from_email}
-				To: ${emailInfo.to_email}
-				Status: Simulating email sending...
+			console.log(`
+				--------------------------------------------------------
+				[MOCK EMAIL SERVICE] Sending....
+				ID: ${emailInfo.id}
+				Time: ${emailInfo.scheduled_time.toISOString()}
+				--------------------------------------------------------
 			`);
 
 			const randomTime = Math.ceil(Math.random() * 1000);
@@ -200,8 +201,6 @@ class EmailService {
 			if (Object.keys(updateData).length === 0) {
 				return emailExit;
 			}
-
-			console.log('updateData :>> ', updateData);
 
 			return await updateScheduleEmailRepo(id, updateData);
 		} catch (error) {
