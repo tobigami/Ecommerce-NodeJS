@@ -13,7 +13,6 @@ const {
 class EmailService {
 	static async sendEmail(id) {
 		try {
-			// Đảm bảo id là số nguyên (nếu được truyền vào dưới dạng chuỗi có tiền tố)
 			const emailId =
 				typeof id === 'string' && id.startsWith('email-') ? parseInt(id.replace('email-', '')) : id;
 

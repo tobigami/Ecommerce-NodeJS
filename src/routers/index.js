@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { apiKey, permission } = require('../auth/checkAuth');
-const { pushLogToDiscord } = require('../middlewares');
+// const { pushLogToDiscord } = require('../middlewares');
 
 // push log to discord
 // router.use(pushLogToDiscord);
