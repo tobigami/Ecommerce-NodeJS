@@ -17,7 +17,6 @@ class EmailWorker {
 			bullEmailConfig.name,
 			async (job) => {
 				try {
-					console.log(`Processing email job: ${job.id}, data:`, job.data);
 					const result = await EmailService.sendEmail(job.data.emailId);
 					console.log(`Email job completed: ${job.id}`);
 					return result;

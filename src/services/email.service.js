@@ -24,9 +24,11 @@ class EmailService {
 			}
 
 			console.log(`[MOCK EMAIL SERVICE] Sending email:
+				--------------------------------------------
 				From: ${emailInfo.from_email}
 				To: ${emailInfo.to_email}
 				Status: Simulating email sending...
+				--------------------------------------------
 			`);
 
 			const randomTime = Math.ceil(Math.random() * 1000);
@@ -190,7 +192,7 @@ class EmailService {
 				// update new job in queue
 				const queueResult = await EmailQueue.addEmailJob({
 					emailId: emailExit.id,
-					scheduled_time: updateData.scheduled_time,
+					scheduled_time: body.scheduled_time,
 				});
 
 				updateData.status = 'pending';
@@ -200,8 +202,6 @@ class EmailService {
 			if (Object.keys(updateData).length === 0) {
 				return emailExit;
 			}
-
-			console.log('updateData :>> ', updateData);
 
 			return await updateScheduleEmailRepo(id, updateData);
 		} catch (error) {
