@@ -35,6 +35,13 @@ class EmailController {
 			metadata: await EmailService.updateScheduleEmail(req.params.id, req.body),
 		}).send(res);
 	};
+
+	reScheduleEmail = async (req, res) => {
+		return new SuccessResponse({
+			message: 'Email rescheduled successfully',
+			metadata: await EmailService.rescheduleEmails(),
+		}).send(res);
+	};
 }
 
 module.exports = new EmailController();

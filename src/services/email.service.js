@@ -5,9 +5,9 @@ const {
 	getScheduleEmailCanSend,
 	addScheduleEmailRepo,
 	updateEmailStatusRepo,
-	getAllEmailSchedulesRepo,
 	getScheduleEmailById,
 	updateScheduleEmailRepo,
+	getAllEmailSchedulesToReSchedule,
 } = require('../models/repositories/email.repo');
 
 class EmailService {
@@ -24,6 +24,7 @@ class EmailService {
 
 			console.log(`[MOCK EMAIL SERVICE] Sending email:
 				--------------------------------------------
+				Id: ${emailInfo.id}
 				From: ${emailInfo.from_email}
 				To: ${emailInfo.to_email}
 				Status: Simulating email sending...
@@ -101,11 +102,22 @@ class EmailService {
 
 	static async rescheduleEmails() {
 		try {
-			const emailsToSchedule = await getAllEmailSchedulesRepo();
+			const emailsToSchedule = await getAllEmailSchedulesToReSchedule();
+			const jobs = (await EmailQueue.getListJobsActive()).map((i) => i.id);
 
 			const results = [];
 			for (const email of emailsToSchedule) {
 				try {
+					if (jobs.includes(email.job_id)) {
+						results.push({
+							emailId: email.id,
+							jobId: email.job_id,
+							status: 'scheduled',
+						});
+
+						continue;
+					}
+
 					const queueResult = await EmailQueue.addEmailJob({
 						emailId: email.id,
 						scheduled_time: email.scheduled_time,

@@ -158,6 +158,25 @@ const updateScheduleEmailRepo = async (id, updateData) => {
 	return await getScheduleEmailById(id);
 };
 
+const getAllEmailSchedulesToReSchedule = async () => {
+	const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+	return await ScheduledEmails.findAll({
+		where: {
+			status: {
+				[Op.or]: ['pending', 'failed'],
+			},
+			scheduled_time: {
+				[Op.between]: [oneDayAgo, new Date()],
+			},
+			retry_count: {
+				[Op.lt]: db.ScheduledEmails.rawAttributes.max_retries.defaultValue,
+			},
+		},
+		order: [['scheduled_time', 'ASC']],
+	});
+};
+
 module.exports = {
 	getScheduleEmailById,
 	getScheduleEmailCanSend,
@@ -165,4 +184,5 @@ module.exports = {
 	updateEmailStatusRepo,
 	getAllEmailSchedulesRepo,
 	updateScheduleEmailRepo,
+	getAllEmailSchedulesToReSchedule,
 };
