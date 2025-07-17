@@ -102,7 +102,7 @@ class EmailService {
 
 	static async rescheduleEmails() {
 		try {
-			const emailsToSchedule = await getAllEmailSchedulesToReSchedule();
+			const emailsToSchedule = await getAllEmailSchedulesToReSchedule({});
 			const jobs = (await EmailQueue.getListJobsActive()).map((i) => i.id);
 
 			const results = [];
@@ -215,6 +215,14 @@ class EmailService {
 			}
 
 			return await updateScheduleEmailRepo(id, updateData);
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	static async testQuery({ offset, limit }) {
+		try {
+			return await getAllEmailSchedulesToReSchedule({ offset, limit });
 		} catch (error) {
 			throw error;
 		}

@@ -8,6 +8,7 @@ const router = express.Router();
 // GET
 router.get('/list-job', asyncHandler(EmailController.getListJob));
 router.get('/re-schedule', asyncHandler(EmailController.reScheduleEmail));
+router.get('/test-query', asyncHandler(EmailController.testQuery));
 
 // POST
 router.post('/send', asyncHandler(EmailController.sendEmail));

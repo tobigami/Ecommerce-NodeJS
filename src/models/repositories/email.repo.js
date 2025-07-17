@@ -3,7 +3,7 @@
 // Import models from the centralized index file
 const db = require('../mysql');
 const ScheduledEmails = db.ScheduledEmails;
-const { Op } = require('sequelize');
+const { Op, QueryTypes } = require('sequelize');
 
 const getScheduleEmailById = async (id) => {
 	return await ScheduledEmails.findByPk(id);
@@ -158,22 +158,44 @@ const updateScheduleEmailRepo = async (id, updateData) => {
 	return await getScheduleEmailById(id);
 };
 
-const getAllEmailSchedulesToReSchedule = async () => {
-	const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+const getAllEmailSchedulesToReSchedule = async ({ offset = 0, limit = 10 }) => {
+	console.log('offset', offset, 'limit', limit, typeof offset);
 
+	const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+	// select * from ScheduledEmails where scheduled_time > '${oneDayAgo.slice(0, 19).replace('T', ' ')}' limit ${offset}, ${limit};
+
+	const query = `
+		select pre.id, pre.scheduled_time, status 
+			from (select id, scheduled_time
+				from ScheduledEmails
+				where scheduled_time > '${oneDayAgo.slice(0, 19).replace('T', ' ')}'
+				order by id
+				limit ${offset}, ${limit}) as temp
+					inner join ScheduledEmails as pre on temp.id = pre.id
+		order by id;
+	`;
+
+	console.log('query ::', query);
+
+	// 6s | 3000001 -> 3000010
+
+	return await ScheduledEmails.sequelize.query(query, {
+		type: QueryTypes.SELECT,
+		raw: true,
+	});
+
+	// 13s | 3000001 -> 3000010
 	return await ScheduledEmails.findAll({
+		attributes: ['id', 'scheduled_time', 'status'],
 		where: {
-			status: {
-				[Op.or]: ['pending', 'failed'],
-			},
 			scheduled_time: {
-				[Op.between]: [oneDayAgo, new Date()],
-			},
-			retry_count: {
-				[Op.lt]: db.ScheduledEmails.rawAttributes.max_retries.defaultValue,
+				[Op.gte]: new Date(Date.now() - 24 * 60 * 60 * 1000),
 			},
 		},
-		order: [['scheduled_time', 'ASC']],
+		order: [['id', 'ASC']],
+		offset: parseInt(offset, 10),
+		limit: parseInt(limit, 10),
 	});
 };
 

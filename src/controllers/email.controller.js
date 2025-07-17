@@ -42,6 +42,13 @@ class EmailController {
 			metadata: await EmailService.rescheduleEmails(),
 		}).send(res);
 	};
+
+	testQuery = async (req, res) => {
+		return new SuccessResponse({
+			message: 'Test query executed successfully',
+			metadata: await EmailService.testQuery(req.query),
+		}).send(res);
+	};
 }
 
 module.exports = new EmailController();
