@@ -159,43 +159,25 @@ const updateScheduleEmailRepo = async (id, updateData) => {
 };
 
 const getAllEmailSchedulesToReSchedule = async ({ offset = 0, limit = 10 }) => {
-	console.log('offset', offset, 'limit', limit, typeof offset);
-
 	const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-	// select * from ScheduledEmails where scheduled_time > '${oneDayAgo.slice(0, 19).replace('T', ' ')}' limit ${offset}, ${limit};
-
 	const query = `
-		select pre.id, pre.scheduled_time, status 
-			from (select id, scheduled_time
+		select pre.id, scheduled_time, status 
+			from (select id
 				from ScheduledEmails
 				where scheduled_time > '${oneDayAgo.slice(0, 19).replace('T', ' ')}'
-				order by id
-				limit ${offset}, ${limit}) as temp
+				order by scheduled_time asc, id asc
+				as temp
 					inner join ScheduledEmails as pre on temp.id = pre.id
-		order by id;
+		order by scheduled_time asc, id asc;
 	`;
 
 	console.log('query ::', query);
 
-	// 6s | 3000001 -> 3000010
-
+	// 1.27 | 682811 -> 4764306
 	return await ScheduledEmails.sequelize.query(query, {
 		type: QueryTypes.SELECT,
 		raw: true,
-	});
-
-	// 13s | 3000001 -> 3000010
-	return await ScheduledEmails.findAll({
-		attributes: ['id', 'scheduled_time', 'status'],
-		where: {
-			scheduled_time: {
-				[Op.gte]: new Date(Date.now() - 24 * 60 * 60 * 1000),
-			},
-		},
-		order: [['id', 'ASC']],
-		offset: parseInt(offset, 10),
-		limit: parseInt(limit, 10),
 	});
 };
 
