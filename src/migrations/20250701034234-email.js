@@ -78,8 +78,13 @@ module.exports = {
 				type: Sequelize.DATE,
 			},
 		});
+
+		await queryInterface.addIndex('ScheduledEmails', ['scheduled_time', 'status'], {
+			name: 'idx_scheduled_time_status',
+		});
 	},
 	async down(queryInterface, Sequelize) {
+		await queryInterface.removeIndex('ScheduledEmails', 'idx_scheduled_time_status');
 		await queryInterface.dropTable('ScheduledEmails');
 	},
 };

@@ -167,6 +167,7 @@ const getAllEmailSchedulesToReSchedule = async ({ offset = 0, limit = 10 }) => {
 				from ScheduledEmails
 				where scheduled_time > '${oneDayAgo.slice(0, 19).replace('T', ' ')}'
 				order by scheduled_time asc, id asc
+				limit ${limit} offset ${offset})
 				as temp
 					inner join ScheduledEmails as pre on temp.id = pre.id
 		order by scheduled_time asc, id asc;

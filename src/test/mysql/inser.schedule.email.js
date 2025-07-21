@@ -14,7 +14,7 @@ const pool = mysql.createPool({
 });
 
 const batchSize = 10000;
-const totalSize = 15_000_000;
+const totalSize = 5_000_000;
 
 let currentId = 1;
 
