@@ -11,7 +11,7 @@ module.exports = {
 		port: MYSQL_PORT,
 		dialect: 'mysql',
 		pool: {
-			min: 1,
+			min: 2, // equal= max / 2
 			max: 5,
 			acquire: 30000,
 			idle: 10000,

@@ -1,4 +1,5 @@
-const app = require('./src/app');
+require('module-alias/register');
+const app = require('@/app');
 const mongoose = require('mongoose');
 const { PORT } = process.env;
 

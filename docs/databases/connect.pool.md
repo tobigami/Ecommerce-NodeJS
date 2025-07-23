@@ -1,0 +1,2 @@
+- Link: https://anonystick.com/blog-developer/trai-nghiem-backend-khi-optimizing-connection-pools-toi-uu-ket-noi-database-chuyen-sau-2025071291466541
+- Docs-Sequelize: https://sequelize.org/api/v6/class/src/sequelize.js~sequelize#instance-constructor-constructor

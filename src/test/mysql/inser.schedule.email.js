@@ -1,20 +1,16 @@
-//  test insert 20m users to mysql db with node js
-
-// sử dụng procedures thì tốn 1m23s cho 10k users -> rất là lâu
-
-//  17s - 20m record 10m
-
+require('module-alias/register');
+const config = require('@/configs/config');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	password: '1234',
-	database: 'dev',
+	host: config.mysql.host,
+	user: config.mysql.user,
+	password: config.mysql.password,
+	database: config.mysql.database,
 });
 
-const batchSize = 10000;
-const totalSize = 5_000_000;
+const batchSize = 1000;
+const totalSize = 10000;
 
 let currentId = 1;
 

@@ -173,9 +173,6 @@ const getAllEmailSchedulesToReSchedule = async ({ offset = 0, limit = 10 }) => {
 		order by scheduled_time asc, id asc;
 	`;
 
-	console.log('query ::', query);
-
-	// 1.27 | 682811 -> 4764306
 	return await ScheduledEmails.sequelize.query(query, {
 		type: QueryTypes.SELECT,
 		raw: true,

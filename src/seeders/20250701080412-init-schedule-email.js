@@ -4,7 +4,7 @@
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		const now = new Date();
-		const scheduledEmail = Array.from({ length: 10000 }, (_, i) => ({
+		const scheduledEmail = Array.from({ length: 1 }, (_, i) => ({
 			from_email: `sender${i + 1}@example.com`,
 			to_email: `recipient${i + 1}@example.com`,
 			subject: `Test Subject ${i + 1}`,
