@@ -25,7 +25,7 @@ module.exports = {
 				defaultValue: '',
 			},
 			user_password: {
-				type: Sequelize.STRING(32),
+				type: Sequelize.STRING(100),
 				allowNull: false,
 				defaultValue: '',
 			},

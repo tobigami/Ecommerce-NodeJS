@@ -12,8 +12,6 @@ const mysql = require('mysql2');
 const express = require('express');
 const app = express();
 
-console.log('config', config);
-
 function getConnection() {
 	return mysql.createPool({
 		host: config.mysql.host,

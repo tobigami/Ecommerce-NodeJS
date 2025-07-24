@@ -4,17 +4,22 @@
 
 //  17s - 20m record 10m
 
+const exMotobike = ['HonDa', 'Yamaha', ''];
+
+require('module-alias/register');
+const config = require('@/configs/config');
+
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	password: '1234',
-	database: 'dev',
+	host: config.mysql.host,
+	user: config.mysql.user,
+	password: config.mysql.password,
+	database: config.mysql.database,
 });
 
 const batchSize = 10000;
-const totalSize = 15_000_000;
+const totalSize = 10_000_000;
 
 let currentId = 1;
 
@@ -51,14 +56,41 @@ function generatePhoneNumber() {
 	return prefix + number;
 }
 
-function generateRandomPassword(length = 4) {
-	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-	let password = '';
-	for (let i = 0; i < length; i++) {
-		const randomIndex = Math.floor(Math.random() * chars.length);
-		password += chars[randomIndex];
-	}
-	return password;
+function generateRandomPassword() {
+	const motorbikes = [
+		'Honda',
+		'Yamaha',
+		'Suzuki',
+		'Kawasaki',
+		'Ducati',
+		'BMW',
+		'KTM',
+		'Harley Davidson',
+		'Triumph',
+		'Vespa',
+		'Aprilia',
+		'Indian',
+		'Moto Guzzi',
+		'Royal Enfield',
+		'MV Agusta',
+		'Benelli',
+	];
+
+	// Lấy ngẫu nhiên 2 hãng xe khác nhau
+	const randomMotorbike1 = motorbikes[Math.floor(Math.random() * motorbikes.length)];
+	let randomMotorbike2;
+	do {
+		randomMotorbike2 = motorbikes[Math.floor(Math.random() * motorbikes.length)];
+	} while (randomMotorbike2 === randomMotorbike1);
+
+	const randomNumber = Math.floor(Math.random() * 900) + 100; // số ngẫu nhiên từ 100-999
+
+	// Tạo một mảng với 3 phần tử và xáo trộn vị trí của chúng
+	const parts = [randomMotorbike1, randomMotorbike2, randomNumber.toString()];
+	const shuffled = parts.sort(() => Math.random() - 0.5);
+
+	// Ghép các phần tử lại với nhau, có thể thêm dấu cách
+	return shuffled.join(' ');
 }
 
 function getRandomDateBetween(start, end) {
@@ -108,4 +140,3 @@ const insertBatch = async () => {
 };
 
 insertBatch().catch((err) => console.log(err));
-
