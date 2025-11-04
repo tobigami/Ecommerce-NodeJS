@@ -9,7 +9,7 @@ class TarotController {
 			req.ip || req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
 		return new SuccessResponse({
 			message: 'reading successfully',
-			metadata: await TarotService.reading({ ...req.body, ip: userIp }),
+			metadata: await TarotService.readingOpenAI({ ...req.body, ip: userIp }),
 		}).send(res);
 	};
 
